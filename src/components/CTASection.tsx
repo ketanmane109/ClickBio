@@ -15,7 +15,7 @@ const CTASection = () => {
           className="text-center max-w-xl mx-auto"
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Ready to build your <span className="text-gradient">BioStack</span>?
+            Ready to build your <span className="text-gradient">BioForge</span>?
           </h2>
           <p className="text-muted-foreground mb-8">
             Join creators who've already made the switch. Free forever, upgrade anytime.

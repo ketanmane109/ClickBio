@@ -8,7 +8,7 @@ const plans = [
     name: "Free",
     price: "$0",
     desc: "Get started with the basics",
-    features: ["1 bio page", "Up to 5 links", "Basic themes", "BioStack branding"],
+    features: ["1 bio page", "Up to 5 links", "Basic themes", "BioForge branding"],
     cta: "Start Free",
     highlighted: false,
   },

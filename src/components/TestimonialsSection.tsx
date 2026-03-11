@@ -19,7 +19,7 @@ const TestimonialsSection = () => {
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Loved by <span className="text-gradient">creators</span>
           </h2>
-          <p className="text-muted-foreground">Join thousands building their brand with BioStack.</p>
+          <p className="text-muted-foreground">Join thousands building their brand with BioForge.</p>
         </motion.div>
 
         <div className="grid md:grid-cols-3 gap-6">

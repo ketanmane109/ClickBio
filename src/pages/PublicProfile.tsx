@@ -109,7 +109,7 @@ const PublicProfile = () => {
 
         {/* Footer */}
         <div className="mt-12 text-center">
-          <p className="text-xs opacity-40">Powered by BioStack</p>
+          <p className="text-xs opacity-40">Powered by BioForge</p>
         </div>
       </div>
     </div>
