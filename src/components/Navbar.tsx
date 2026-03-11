@@ -8,7 +8,7 @@ const Navbar = () => {
       <div className="container flex h-16 items-center justify-between">
         <Link to="/" className="flex items-center gap-2 font-display text-xl font-bold">
           <Zap className="h-5 w-5 text-primary" />
-          BioStack
+          BioForge
         </Link>
         <div className="hidden md:flex items-center gap-8">
           <a href="#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Features</a>
