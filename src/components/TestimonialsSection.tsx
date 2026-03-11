@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 
 const testimonials = [
-  { name: "Sarah K.", handle: "@sarahcreates", text: "BioStack replaced 3 tools for me. My page looks incredible and the AI bio writer nailed it.", avatar: "🎨" },
+  { name: "Sarah K.", handle: "@sarahcreates", text: "BioForge replaced 3 tools for me. My page looks incredible and the AI bio writer nailed it.", avatar: "🎨" },
   { name: "Marcus J.", handle: "@marcusfitness", text: "The analytics dashboard alone is worth it. I finally know which links my audience actually clicks.", avatar: "💪" },
   { name: "Priya M.", handle: "@priyamusic", text: "Set up my page in under 2 minutes. The themes are gorgeous and it works perfectly on mobile.", avatar: "🎵" },
 ];
