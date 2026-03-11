@@ -87,7 +87,7 @@ const Dashboard = () => {
         <div className="container flex h-14 items-center justify-between">
           <Link to="/" className="flex items-center gap-2 font-display font-bold">
             <Zap className="h-4 w-4 text-primary" />
-            BioStack
+            BioForge
           </Link>
           <div className="flex items-center gap-3">
             <Button variant="ghost" size="sm" asChild>
