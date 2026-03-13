@@ -14,13 +14,121 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      analytics: {
+        Row: {
+          clicked_at: string
+          id: string
+          link_id: string
+          referrer: string | null
+        }
+        Insert: {
+          clicked_at?: string
+          id?: string
+          link_id: string
+          referrer?: string | null
+        }
+        Update: {
+          clicked_at?: string
+          id?: string
+          link_id?: string
+          referrer?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "analytics_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "links"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      links: {
+        Row: {
+          clicks: number
+          created_at: string
+          featured: boolean
+          id: string
+          position: number
+          profile_id: string
+          title: string
+          url: string
+        }
+        Insert: {
+          clicks?: number
+          created_at?: string
+          featured?: boolean
+          id?: string
+          position?: number
+          profile_id: string
+          title?: string
+          url?: string
+        }
+        Update: {
+          clicks?: number
+          created_at?: string
+          featured?: boolean
+          id?: string
+          position?: number
+          profile_id?: string
+          title?: string
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "links_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          bio: string | null
+          created_at: string
+          id: string
+          name: string | null
+          theme: string | null
+          updated_at: string
+          user_id: string
+          username: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          id?: string
+          name?: string | null
+          theme?: string | null
+          updated_at?: string
+          user_id: string
+          username?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          id?: string
+          name?: string | null
+          theme?: string | null
+          updated_at?: string
+          user_id?: string
+          username?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      record_click: {
+        Args: { p_link_id: string; p_referrer?: string }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never
