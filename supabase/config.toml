@@ -1,1 +1,4 @@
 project_id = "ttoufrnbkjkzntkjioke"
+
+[functions.generate-bio]
+verify_jwt = false
