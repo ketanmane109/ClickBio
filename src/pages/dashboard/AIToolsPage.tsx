@@ -1,101 +1,135 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Sparkles, BarChart3, Plus } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import { Sparkles, Copy, Lightbulb, Hash, MessageSquare, Flame } from "lucide-react";
 import { useProfile } from "@/hooks/useProfile";
+import { useSubscription } from "@/hooks/useSubscription";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
+import UpgradeModal from "@/components/UpgradeModal";
 
-const aiSuggestions = [
-  { text: "Add a YouTube link to grow subscribers", title: "YouTube Channel", url: "https://youtube.com/" },
-  { text: "Add a WhatsApp link for direct messages", title: "WhatsApp", url: "https://wa.me/" },
-  { text: "Add a newsletter signup to build your list", title: "Newsletter", url: "" },
-  { text: "Add a Gumroad link to sell digital products", title: "My Store", url: "https://gumroad.com/" },
+type ToolType = "bio" | "hooks" | "captions" | "hashtags" | "ideas";
+
+const tools: { id: ToolType; label: string; icon: typeof Sparkles; placeholder: string; description: string }[] = [
+  { id: "bio", label: "AI Bio Generator", icon: Sparkles, placeholder: "e.g. fitness coach, tech reviewer", description: "Generate an optimized bio for your profile" },
+  { id: "hooks", label: "Viral Hook Generator", icon: Flame, placeholder: "e.g. productivity tips for students", description: "Create attention-grabbing hooks for your content" },
+  { id: "captions", label: "Caption Generator", icon: MessageSquare, placeholder: "e.g. launching my new course", description: "Write engaging captions for your posts" },
+  { id: "hashtags", label: "Hashtag Generator", icon: Hash, placeholder: "e.g. fitness, workout, healthy", description: "Get trending hashtags for maximum reach" },
+  { id: "ideas", label: "Content Ideas", icon: Lightbulb, placeholder: "e.g. cooking, vegan recipes", description: "Get fresh content ideas for your niche" },
 ];
 
 const AIToolsPage = () => {
-  const { profile, updateProfile, addLink } = useProfile();
-  const [aiNiche, setAiNiche] = useState("");
-  const [aiTone, setAiTone] = useState("");
-  const [aiKeywords, setAiKeywords] = useState("");
-  const [generatedBio, setGeneratedBio] = useState("");
+  const { updateProfile } = useProfile();
+  const { isPro, loading: subLoading } = useSubscription();
+  const [showUpgrade, setShowUpgrade] = useState(false);
+  const [activeTool, setActiveTool] = useState<ToolType>("bio");
+  const [input, setInput] = useState("");
+  const [tone, setTone] = useState("");
+  const [results, setResults] = useState<string[]>([]);
   const [generating, setGenerating] = useState(false);
 
-  const generateBio = async () => {
+  if (subLoading) return <div className="flex items-center justify-center py-20"><div className="animate-spin h-8 w-8 border-2 border-primary border-t-transparent rounded-full" /></div>;
+
+  if (!isPro) {
+    return (
+      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="text-center py-16">
+        <Sparkles className="h-12 w-12 text-primary mx-auto mb-4" />
+        <h1 className="text-2xl font-display font-bold mb-2">AI Tools — Pro Only</h1>
+        <p className="text-muted-foreground mb-6 max-w-md mx-auto">Upgrade to Pro to unlock 5 powerful AI creator tools.</p>
+        <Button variant="hero" onClick={() => setShowUpgrade(true)}>Upgrade to Pro</Button>
+        <UpgradeModal open={showUpgrade} onOpenChange={setShowUpgrade} />
+      </motion.div>
+    );
+  }
+
+  const generate = async () => {
+    if (!input.trim()) return;
     setGenerating(true);
+    setResults([]);
     try {
-      const { data, error } = await supabase.functions.invoke("generate-bio", {
-        body: { niche: aiNiche, tone: aiTone, keywords: aiKeywords },
+      const { data, error } = await supabase.functions.invoke("ai-tools", {
+        body: { type: activeTool, input, tone },
       });
       if (error) throw error;
-      setGeneratedBio(data.bio);
+      setResults(data.results || []);
     } catch {
-      // Fallback to local generation
-      const bios = [
-        `${aiNiche} enthusiast sharing ${aiKeywords}. Let's connect and grow together! 🚀`,
-        `Helping you master ${aiNiche}. ${aiKeywords} | Building in public ✨`,
-        `${aiNiche} creator passionate about ${aiKeywords}. Join the journey 🎯`,
-      ];
-      setGeneratedBio(bios[Math.floor(Math.random() * bios.length)]);
+      toast.error("AI generation failed. Please try again.");
     } finally {
       setGenerating(false);
     }
   };
 
-  const useBio = async () => {
-    if (!generatedBio) return;
-    await updateProfile({ bio: generatedBio });
+  const copyText = (text: string) => {
+    navigator.clipboard.writeText(text);
+    toast.success("Copied!");
+  };
+
+  const useBio = async (text: string) => {
+    await updateProfile({ bio: text });
     toast.success("Bio updated!");
   };
 
-  const addSuggestedLink = async (title: string, url: string) => {
-    await addLink();
-    toast.success(`"${title}" link added! Edit it in Bio Page.`);
-  };
+  const currentTool = tools.find((t) => t.id === activeTool)!;
 
   return (
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
       <h1 className="text-2xl font-display font-bold mb-6">AI Tools</h1>
 
-      <div className="space-y-8">
-        <div className="rounded-xl border border-border bg-card p-6">
-          <div className="flex items-center gap-2 mb-4">
-            <Sparkles className="h-5 w-5 text-primary" />
-            <h3 className="font-display font-semibold">AI Bio Generator</h3>
-          </div>
-          <div className="space-y-3 mb-4">
-            <Input placeholder="Your niche (e.g. fitness, tech, music)" value={aiNiche} onChange={(e) => setAiNiche(e.target.value)} />
-            <Input placeholder="Tone (e.g. professional, casual, witty)" value={aiTone} onChange={(e) => setAiTone(e.target.value)} />
-            <Input placeholder="Keywords (e.g. coaching, tutorials, vlogs)" value={aiKeywords} onChange={(e) => setAiKeywords(e.target.value)} />
-            <Button variant="hero" size="sm" onClick={generateBio} disabled={!aiNiche || !aiKeywords || generating}>
-              <Sparkles className="h-3.5 w-3.5 mr-1" /> {generating ? "Generating..." : "Generate Bio"}
-            </Button>
-          </div>
-          {generatedBio && (
-            <div className="rounded-lg bg-muted p-4">
-              <p className="text-sm mb-3">{generatedBio}</p>
-              <Button size="sm" variant="outline" onClick={useBio}>Use this bio</Button>
-            </div>
+      <div className="flex flex-wrap gap-2 mb-6">
+        {tools.map((t) => (
+          <Button
+            key={t.id}
+            variant={activeTool === t.id ? "hero" : "outline"}
+            size="sm"
+            onClick={() => { setActiveTool(t.id); setResults([]); setInput(""); }}
+          >
+            <t.icon className="h-3.5 w-3.5 mr-1" /> {t.label}
+          </Button>
+        ))}
+      </div>
+
+      <div className="rounded-xl border border-border bg-card p-6">
+        <div className="flex items-center gap-2 mb-2">
+          <currentTool.icon className="h-5 w-5 text-primary" />
+          <h3 className="font-display font-semibold">{currentTool.label}</h3>
+        </div>
+        <p className="text-sm text-muted-foreground mb-4">{currentTool.description}</p>
+
+        <div className="space-y-3 mb-4">
+          <Input
+            placeholder={currentTool.placeholder}
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+          />
+          {(activeTool === "bio" || activeTool === "captions") && (
+            <Input placeholder="Tone (e.g. professional, casual, witty)" value={tone} onChange={(e) => setTone(e.target.value)} />
           )}
+          <Button variant="hero" size="sm" onClick={generate} disabled={!input.trim() || generating}>
+            <Sparkles className="h-3.5 w-3.5 mr-1" /> {generating ? "Generating..." : "Generate"}
+          </Button>
         </div>
 
-        <div className="rounded-xl border border-border bg-card p-6">
-          <div className="flex items-center gap-2 mb-4">
-            <BarChart3 className="h-5 w-5 text-primary" />
-            <h3 className="font-display font-semibold">Smart Link Suggestions</h3>
-          </div>
+        {results.length > 0 && (
           <div className="space-y-2">
-            {aiSuggestions.map((s) => (
-              <div key={s.text} className="flex items-center justify-between rounded-lg bg-muted p-3">
-                <p className="text-sm">{s.text}</p>
-                <Button size="sm" variant="ghost" onClick={() => addSuggestedLink(s.title, s.url)}>
-                  <Plus className="h-3.5 w-3.5" />
-                </Button>
+            {results.map((r, i) => (
+              <div key={i} className="rounded-lg bg-muted p-3 flex items-start justify-between gap-2">
+                <p className="text-sm flex-1">{r}</p>
+                <div className="flex gap-1 shrink-0">
+                  <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => copyText(r)}>
+                    <Copy className="h-3.5 w-3.5" />
+                  </Button>
+                  {activeTool === "bio" && (
+                    <Button size="sm" variant="outline" className="h-7 text-xs" onClick={() => useBio(r)}>
+                      Use
+                    </Button>
+                  )}
+                </div>
               </div>
             ))}
           </div>
-        </div>
+        )}
       </div>
     </motion.div>
   );
