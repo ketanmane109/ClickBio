@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/contexts/AuthContext";
 import { useProfile } from "@/hooks/useProfile";
+import { useSubscription } from "@/hooks/useSubscription";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +12,7 @@ import { motion } from "framer-motion";
 const SettingsPage = () => {
   const { user, signOut } = useAuth();
   const { profile, updateProfile, loading } = useProfile();
+  const { subscription, isPro } = useSubscription();
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [saving, setSaving] = useState(false);
@@ -24,17 +26,9 @@ const SettingsPage = () => {
   const saveUsername = async () => {
     if (!username.trim()) return toast.error("Username cannot be empty");
     setSaving(true);
-    // Check uniqueness
     const { data: existing } = await supabase
-      .from("profiles")
-      .select("id")
-      .eq("username", username.toLowerCase())
-      .neq("id", profile?.id || "")
-      .maybeSingle();
-    if (existing) {
-      setSaving(false);
-      return toast.error("Username already taken");
-    }
+      .from("profiles").select("id").eq("username", username.toLowerCase()).neq("id", profile?.id || "").maybeSingle();
+    if (existing) { setSaving(false); return toast.error("Username already taken"); }
     const err = await updateProfile({ username: username.toLowerCase() });
     setSaving(false);
     if (err) toast.error("Failed to save");
@@ -43,10 +37,7 @@ const SettingsPage = () => {
 
   const handleDeleteAccount = async () => {
     if (!confirm("Are you sure? This will permanently delete your account and all data.")) return;
-    // Delete profile (cascade deletes links & analytics)
-    if (profile) {
-      await supabase.from("profiles").delete().eq("id", profile.id);
-    }
+    if (profile) await supabase.from("profiles").delete().eq("id", profile.id);
     await signOut();
     toast.success("Account deleted");
     navigate("/");
@@ -62,17 +53,22 @@ const SettingsPage = () => {
           <label className="text-sm font-medium mb-1.5 block">Username</label>
           <div className="flex gap-2">
             <Input value={username} onChange={(e) => setUsername(e.target.value)} />
-            <Button variant="hero" size="sm" onClick={saveUsername} disabled={saving}>
-              {saving ? "..." : "Save"}
-            </Button>
+            <Button variant="hero" size="sm" onClick={saveUsername} disabled={saving}>{saving ? "..." : "Save"}</Button>
           </div>
           <p className="text-xs text-muted-foreground mt-1">Your public page: /{username}</p>
         </div>
         <div>
           <label className="text-sm font-medium mb-1.5 block">Email</label>
           <Input value={user?.email || ""} disabled className="opacity-60" />
-          <p className="text-xs text-muted-foreground mt-1">Email cannot be changed here</p>
         </div>
+      </div>
+
+      <div className="rounded-xl border border-border bg-card p-6 mb-6">
+        <h3 className="font-display font-semibold mb-2">Subscription</h3>
+        <p className="text-sm text-muted-foreground">
+          Current plan: <span className="font-medium text-foreground">{isPro ? "Pro" : "Free"}</span>
+          {" · "}Status: <span className="font-medium text-foreground">{subscription?.status || "active"}</span>
+        </p>
       </div>
 
       <div className="rounded-xl border border-destructive/30 bg-card p-6">

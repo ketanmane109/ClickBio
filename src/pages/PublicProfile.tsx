@@ -7,36 +7,57 @@ import { motion } from "framer-motion";
 
 type Profile = Tables<"profiles">;
 type Link = Tables<"links">;
-type Theme = string;
 
 const themeStyles: Record<string, { bg: string; fg: string; btn: string; btnHover: string; featured: string }> = {
   dark: {
-    bg: "bg-[hsl(var(--bio-dark-bg))]",
-    fg: "text-[hsl(var(--bio-dark-fg))]",
-    btn: "bg-[hsl(var(--bio-dark-btn))] text-[hsl(var(--bio-dark-fg))]",
-    btnHover: "hover:bg-[hsl(var(--bio-dark-accent))] hover:text-[hsl(var(--bio-dark-bg))]",
-    featured: "bg-[hsl(var(--bio-dark-accent))] text-[hsl(var(--bio-dark-bg))]",
-  },
-  gradient: {
-    bg: "bg-gradient-to-br from-[hsl(270,60%,20%)] to-[hsl(300,50%,15%)]",
-    fg: "text-[hsl(var(--bio-gradient-fg))]",
-    btn: "bg-[hsl(var(--bio-gradient-btn))]/60 text-[hsl(var(--bio-gradient-fg))] backdrop-blur",
-    btnHover: "hover:bg-[hsl(var(--bio-gradient-accent))] hover:text-[hsl(var(--bio-gradient-fg))]",
-    featured: "bg-[hsl(var(--bio-gradient-accent))] text-[hsl(var(--bio-gradient-fg))]",
+    bg: "bg-[hsl(0,0%,5%)]", fg: "text-[hsl(0,0%,96%)]",
+    btn: "bg-[hsl(0,0%,14%)] text-[hsl(0,0%,96%)]", btnHover: "hover:bg-[hsl(142,72%,50%)] hover:text-[hsl(0,0%,3%)]",
+    featured: "bg-[hsl(142,72%,50%)] text-[hsl(0,0%,3%)]",
   },
   minimal: {
-    bg: "bg-[hsl(var(--bio-minimal-bg))]",
-    fg: "text-[hsl(var(--bio-minimal-fg))]",
-    btn: "bg-[hsl(var(--bio-minimal-btn))] text-[hsl(var(--bio-minimal-fg))]",
-    btnHover: "hover:bg-[hsl(var(--bio-minimal-accent))] hover:text-[hsl(var(--bio-minimal-bg))]",
-    featured: "bg-[hsl(var(--bio-minimal-accent))] text-[hsl(var(--bio-minimal-bg))]",
+    bg: "bg-[hsl(0,0%,98%)]", fg: "text-[hsl(0,0%,10%)]",
+    btn: "bg-[hsl(0,0%,92%)] text-[hsl(0,0%,10%)]", btnHover: "hover:bg-[hsl(0,0%,10%)] hover:text-[hsl(0,0%,98%)]",
+    featured: "bg-[hsl(0,0%,10%)] text-[hsl(0,0%,98%)]",
+  },
+  gradient: {
+    bg: "bg-gradient-to-br from-[hsl(270,60%,20%)] to-[hsl(300,50%,15%)]", fg: "text-[hsl(0,0%,100%)]",
+    btn: "bg-[hsl(270,50%,35%)]/60 text-[hsl(0,0%,100%)] backdrop-blur", btnHover: "hover:bg-[hsl(300,70%,60%)]",
+    featured: "bg-[hsl(300,70%,60%)] text-[hsl(0,0%,100%)]",
   },
   glass: {
-    bg: "bg-gradient-to-br from-[hsl(210,40%,15%)] to-[hsl(220,30%,25%)]",
-    fg: "text-[hsl(0,0%,96%)]",
-    btn: "bg-[hsl(0,0%,100%)]/10 text-[hsl(0,0%,96%)] backdrop-blur-md border border-[hsl(0,0%,100%)]/20",
-    btnHover: "hover:bg-[hsl(0,0%,100%)]/20",
+    bg: "bg-gradient-to-br from-[hsl(210,40%,15%)] to-[hsl(220,30%,25%)]", fg: "text-[hsl(0,0%,96%)]",
+    btn: "bg-[hsl(0,0%,100%)]/10 text-[hsl(0,0%,96%)] backdrop-blur-md border border-[hsl(0,0%,100%)]/20", btnHover: "hover:bg-[hsl(0,0%,100%)]/20",
     featured: "bg-[hsl(142,72%,50%)] text-[hsl(0,0%,3%)]",
+  },
+  neon: {
+    bg: "bg-[hsl(260,100%,5%)]", fg: "text-[hsl(280,100%,70%)]",
+    btn: "bg-[hsl(280,100%,20%)] text-[hsl(280,100%,70%)] border border-[hsl(280,100%,50%)]/30", btnHover: "hover:bg-[hsl(280,100%,50%)] hover:text-[hsl(0,0%,100%)]",
+    featured: "bg-[hsl(280,100%,60%)] text-[hsl(0,0%,100%)] shadow-[0_0_20px_hsl(280,100%,60%)]",
+  },
+  pastel: {
+    bg: "bg-[hsl(330,50%,95%)]", fg: "text-[hsl(330,30%,25%)]",
+    btn: "bg-[hsl(330,40%,88%)] text-[hsl(330,30%,25%)]", btnHover: "hover:bg-[hsl(330,50%,80%)]",
+    featured: "bg-[hsl(330,60%,65%)] text-[hsl(0,0%,100%)]",
+  },
+  clean: {
+    bg: "bg-[hsl(0,0%,100%)]", fg: "text-[hsl(0,0%,15%)]",
+    btn: "bg-[hsl(0,0%,96%)] text-[hsl(0,0%,15%)] border border-[hsl(0,0%,88%)]", btnHover: "hover:bg-[hsl(0,0%,90%)]",
+    featured: "bg-[hsl(0,0%,15%)] text-[hsl(0,0%,100%)]",
+  },
+  bold: {
+    bg: "bg-[hsl(0,80%,50%)]", fg: "text-[hsl(0,0%,100%)]",
+    btn: "bg-[hsl(0,0%,100%)]/20 text-[hsl(0,0%,100%)] border border-[hsl(0,0%,100%)]/30", btnHover: "hover:bg-[hsl(0,0%,100%)] hover:text-[hsl(0,80%,50%)]",
+    featured: "bg-[hsl(0,0%,100%)] text-[hsl(0,80%,50%)] font-bold",
+  },
+  instagram: {
+    bg: "bg-gradient-to-br from-[hsl(45,100%,55%)] via-[hsl(340,80%,55%)] to-[hsl(280,80%,55%)]", fg: "text-[hsl(0,0%,100%)]",
+    btn: "bg-[hsl(0,0%,100%)]/25 text-[hsl(0,0%,100%)] backdrop-blur-md", btnHover: "hover:bg-[hsl(0,0%,100%)]/40",
+    featured: "bg-[hsl(0,0%,100%)] text-[hsl(340,80%,45%)]",
+  },
+  gold: {
+    bg: "bg-[hsl(40,30%,10%)]", fg: "text-[hsl(45,80%,60%)]",
+    btn: "bg-[hsl(45,50%,20%)] text-[hsl(45,80%,60%)] border border-[hsl(45,80%,40%)]/30", btnHover: "hover:bg-[hsl(45,80%,50%)] hover:text-[hsl(40,30%,10%)]",
+    featured: "bg-gradient-to-r from-[hsl(45,80%,50%)] to-[hsl(35,90%,55%)] text-[hsl(40,30%,10%)]",
   },
 };
 
@@ -51,23 +72,11 @@ const PublicProfile = () => {
     const fetchProfile = async () => {
       if (!username) return;
       const { data: profileData } = await supabase
-        .from("profiles")
-        .select("*")
-        .eq("username", username)
-        .single();
-
-      if (!profileData) {
-        setNotFound(true);
-        setLoading(false);
-        return;
-      }
-
+        .from("profiles").select("*").eq("username", username).single();
+      if (!profileData) { setNotFound(true); setLoading(false); return; }
       setProfile(profileData);
       const { data: linksData } = await supabase
-        .from("links")
-        .select("*")
-        .eq("profile_id", profileData.id)
-        .order("position");
+        .from("links").select("*").eq("profile_id", profileData.id).order("position");
       setLinks(linksData || []);
       setLoading(false);
     };
@@ -79,62 +88,55 @@ const PublicProfile = () => {
     window.open(url, "_blank", "noopener");
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="animate-spin h-8 w-8 border-2 border-primary border-t-transparent rounded-full" />
-      </div>
-    );
-  }
-
-  if (notFound || !profile) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center text-muted-foreground">
-        <p>Profile not found</p>
-      </div>
-    );
-  }
+  if (loading) return <div className="min-h-screen bg-background flex items-center justify-center"><div className="animate-spin h-8 w-8 border-2 border-primary border-t-transparent rounded-full" /></div>;
+  if (notFound || !profile) return <div className="min-h-screen bg-background flex items-center justify-center text-muted-foreground"><p>Profile not found</p></div>;
 
   const t = themeStyles[profile.theme || "dark"] || themeStyles.dark;
+  const featuredLink = links.find((l) => l.featured);
+  const regularLinks = links.filter((l) => !l.featured);
 
   return (
     <div className={`min-h-screen ${t.bg} ${t.fg} flex justify-center`}>
       <div className="w-full max-w-md px-6 py-12">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col items-center mb-8">
           {profile.avatar_url ? (
-            <img src={profile.avatar_url} alt={profile.name || ""} className="w-20 h-20 rounded-full object-cover border-2 border-current/20 mb-4" />
+            <img src={profile.avatar_url} alt={profile.name || ""} className="w-24 h-24 rounded-full object-cover border-2 border-current/20 mb-4 shadow-lg" />
           ) : (
-            <div className="w-20 h-20 rounded-full bg-muted/20 border-2 border-current/20 flex items-center justify-center text-3xl mb-4">
-              👤
-            </div>
+            <div className="w-24 h-24 rounded-full bg-current/10 border-2 border-current/20 flex items-center justify-center text-4xl mb-4">👤</div>
           )}
           <h1 className="font-display text-xl font-bold">{profile.name || username}</h1>
-          {profile.bio && <p className="text-sm opacity-70 mt-1 text-center">{profile.bio}</p>}
+          {profile.bio && <p className="text-sm opacity-70 mt-1 text-center max-w-xs">{profile.bio}</p>}
         </motion.div>
 
+        {featuredLink && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
+            onClick={() => handleClick(featuredLink.id, featuredLink.url)}
+            className={`block w-full py-4 px-4 rounded-xl text-center text-sm font-bold transition-all duration-200 cursor-pointer mb-4 shadow-lg ${t.featured}`}
+          >
+            <span className="flex items-center justify-center gap-2">
+              <Star className="h-4 w-4" /> {featuredLink.title} <ExternalLink className="h-3 w-3 opacity-50" />
+            </span>
+          </motion.button>
+        )}
+
         <div className="space-y-3">
-          {links.map((link, i) => (
+          {regularLinks.map((link, i) => (
             <motion.button
               key={link.id}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.05 }}
+              initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}
               onClick={() => handleClick(link.id, link.url)}
-              className={`block w-full py-3.5 px-4 rounded-xl text-center text-sm font-medium transition-all duration-200 cursor-pointer ${
-                link.featured ? `${t.featured} font-bold shadow-lg` : `${t.btn} ${t.btnHover}`
-              }`}
+              className={`block w-full py-3.5 px-4 rounded-xl text-center text-sm font-medium transition-all duration-200 cursor-pointer ${t.btn} ${t.btnHover}`}
             >
               <span className="flex items-center justify-center gap-2">
-                {link.featured && <Star className="h-4 w-4" />}
-                {link.title}
-                <ExternalLink className="h-3 w-3 opacity-50" />
+                {link.title} <ExternalLink className="h-3 w-3 opacity-50" />
               </span>
             </motion.button>
           ))}
         </div>
 
         <div className="mt-12 text-center">
-          <p className="text-xs opacity-40">Powered by BioForge</p>
+          <p className="text-xs opacity-40">Powered by CreatorHub AI</p>
         </div>
       </div>
     </div>
