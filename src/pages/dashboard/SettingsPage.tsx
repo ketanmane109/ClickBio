@@ -12,7 +12,7 @@ import { motion } from "framer-motion";
 const SettingsPage = () => {
   const { user, signOut } = useAuth();
   const { profile, updateProfile, loading } = useProfile();
-  const { subscription, isPro } = useSubscription();
+  const { plan } = useSubscription();
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [saving, setSaving] = useState(false);
@@ -43,6 +43,8 @@ const SettingsPage = () => {
     navigate("/");
   };
 
+  const planLabel = plan === "pro" ? "Pro" : plan === "basic" ? "Basic" : "Free";
+
   return (
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
       <h1 className="text-2xl font-display font-bold mb-6">Settings</h1>
@@ -66,8 +68,7 @@ const SettingsPage = () => {
       <div className="rounded-xl border border-border bg-card p-6 mb-6">
         <h3 className="font-display font-semibold mb-2">Subscription</h3>
         <p className="text-sm text-muted-foreground">
-          Current plan: <span className="font-medium text-foreground">{isPro ? "Pro" : "Free"}</span>
-          {" · "}Status: <span className="font-medium text-foreground">{subscription?.status || "active"}</span>
+          Current plan: <span className="font-medium text-foreground">{planLabel}</span>
         </p>
       </div>
 

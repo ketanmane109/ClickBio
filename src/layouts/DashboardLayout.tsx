@@ -1,5 +1,5 @@
 import { Link, Outlet } from "react-router-dom";
-import { Sparkles, Eye, LogOut } from "lucide-react";
+import { Link2, Eye, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { DashboardSidebar } from "@/components/DashboardSidebar";
@@ -27,8 +27,8 @@ const DashboardLayout = () => {
           <header className="border-b border-border bg-background/80 backdrop-blur-xl sticky top-0 z-50 h-14 flex items-center px-4 gap-3">
             <SidebarTrigger />
             <Link to="/" className="flex items-center gap-2 font-display font-bold">
-              <Sparkles className="h-4 w-4 text-primary" />
-              CreatorHub AI
+              <Link2 className="h-4 w-4 text-primary" />
+              clickbio
             </Link>
             <div className="flex-1" />
             {profile?.username && (

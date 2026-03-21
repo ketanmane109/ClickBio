@@ -13,12 +13,11 @@ import UpgradeModal from "@/components/UpgradeModal";
 
 const BioPageEditor = () => {
   const { profile, links, loading, updateProfile, addLink, updateLink, deleteLink, reorderLinks, uploadAvatar } = useProfile();
-  const { isPro } = useSubscription();
+  const { maxLinks } = useSubscription();
   const fileRef = useRef<HTMLInputElement>(null);
   const [showUpgrade, setShowUpgrade] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
 
-  // Debounce helper
   const debounceTimers = useRef<Record<string, ReturnType<typeof setTimeout>>>({});
   const debouncedUpdate = useCallback((key: string, fn: () => void) => {
     if (debounceTimers.current[key]) clearTimeout(debounceTimers.current[key]);
@@ -28,7 +27,6 @@ const BioPageEditor = () => {
   if (loading) return <div className="flex items-center justify-center py-20"><div className="animate-spin h-8 w-8 border-2 border-primary border-t-transparent rounded-full" /></div>;
   if (!profile) return <p className="text-muted-foreground">Profile not found</p>;
 
-  const maxLinks = isPro ? Infinity : 5;
   const canAddLink = links.length < maxLinks;
 
   const onDragEnd = (result: DropResult) => {
@@ -79,7 +77,6 @@ const BioPageEditor = () => {
         </div>
       ) : (
         <>
-          {/* Avatar */}
           <div className="mb-6">
             <label className="text-sm font-medium mb-1.5 block">Profile Photo</label>
             <div className="flex items-center gap-4">
@@ -99,12 +96,11 @@ const BioPageEditor = () => {
             <div>
               <label className="text-sm font-medium mb-1.5 block">Display Name</label>
               <Input
-                value={profile.name || ""}
+                defaultValue={profile.name || ""}
                 onChange={(e) => {
                   const val = e.target.value;
                   debouncedUpdate("name", () => updateProfile({ name: val }));
                 }}
-                defaultValue={profile.name || ""}
               />
             </div>
             <div>
@@ -122,7 +118,7 @@ const BioPageEditor = () => {
 
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-display font-semibold">
-              Your Links {!isPro && <span className="text-xs text-muted-foreground">({links.length}/{maxLinks})</span>}
+              Your Links {maxLinks !== Infinity && <span className="text-xs text-muted-foreground">({links.length}/{maxLinks})</span>}
             </h3>
             <Button size="sm" onClick={handleAddLink}>
               <Plus className="h-3.5 w-3.5 mr-1" /> Add Link

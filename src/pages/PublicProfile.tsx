@@ -67,6 +67,7 @@ const PublicProfile = () => {
   const [links, setLinks] = useState<Link[]>([]);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
+  const [showAd, setShowAd] = useState(false);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -75,6 +76,13 @@ const PublicProfile = () => {
         .from("profiles").select("*").eq("username", username).single();
       if (!profileData) { setNotFound(true); setLoading(false); return; }
       setProfile(profileData);
+
+      // Check if user is on free plan (show ads)
+      const { data: sub } = await supabase
+        .from("subscriptions").select("plan, status").eq("user_id", profileData.user_id).single();
+      const isPaid = sub && (sub.plan === "basic" || sub.plan === "pro") && sub.status === "active";
+      setShowAd(!isPaid);
+
       const { data: linksData } = await supabase
         .from("links").select("*").eq("profile_id", profileData.id).order("position");
       setLinks(linksData || []);
@@ -136,7 +144,14 @@ const PublicProfile = () => {
         </div>
 
         <div className="mt-12 text-center">
-          <p className="text-xs opacity-40">Powered by CreatorHub AI</p>
+          {showAd && (
+            <div className="mb-4 rounded-lg border border-current/10 bg-current/5 px-4 py-3">
+              <p className="text-xs opacity-50 mb-1">Advertisement</p>
+              <p className="text-sm font-medium opacity-70">Create your own bio page for free</p>
+              <a href="/" className="text-xs text-primary underline opacity-80">Get started with clickbio →</a>
+            </div>
+          )}
+          <p className="text-xs opacity-40">Powered by clickbio</p>
         </div>
       </div>
     </div>

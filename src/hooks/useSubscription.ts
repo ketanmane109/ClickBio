@@ -5,7 +5,7 @@ import { useAuth } from "@/contexts/AuthContext";
 export type Subscription = {
   id: string;
   user_id: string;
-  plan: "free" | "pro";
+  plan: "free" | "basic" | "pro";
   status: string;
 };
 
@@ -28,7 +28,12 @@ export function useSubscription() {
     fetch();
   }, [user]);
 
-  const isPro = subscription?.plan === "pro" && subscription?.status === "active";
+  const plan = subscription?.plan || "free";
+  const isPaid = (plan === "basic" || plan === "pro") && subscription?.status === "active";
+  const isPro = plan === "pro" && subscription?.status === "active";
+  const isBasic = plan === "basic" && subscription?.status === "active";
 
-  return { subscription, isPro, loading };
+  const maxLinks = isPro ? Infinity : isBasic ? 10 : 5;
+
+  return { subscription, plan, isPaid, isPro, isBasic, maxLinks, loading };
 }

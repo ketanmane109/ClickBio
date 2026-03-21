@@ -8,16 +8,25 @@ const plans = [
     name: "Free",
     price: "₹0",
     desc: "Get started with the basics",
-    features: ["1 bio page", "Up to 5 links", "2 basic themes", "CreatorHub branding"],
+    features: ["Up to 5 links", "2 basic themes", "clickbio branding", "Ads on bio page"],
     cta: "Start Free",
+    highlighted: false,
+  },
+  {
+    name: "Basic",
+    price: "₹99",
+    period: "/mo",
+    desc: "Grow your creator brand",
+    features: ["Up to 10 links", "All 10 themes", "Analytics dashboard", "No ads", "No branding"],
+    cta: "Go Basic",
     highlighted: false,
   },
   {
     name: "Pro",
     price: "₹199",
     period: "/mo",
-    desc: "Everything to grow as a creator",
-    features: ["Unlimited links", "All 10 themes", "Full analytics", "5 AI creator tools", "Custom background", "No branding", "Priority support"],
+    desc: "Everything, unlimited",
+    features: ["Unlimited links", "All 10 themes", "Full analytics", "Custom background", "No ads", "No branding", "Priority support"],
     cta: "Go Pro",
     highlighted: true,
   },
@@ -34,7 +43,7 @@ const PricingSection = () => {
           <p className="text-muted-foreground">Start free. Upgrade when you're ready.</p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-6 max-w-3xl mx-auto">
           {plans.map((plan, i) => (
             <motion.div
               key={plan.name}
