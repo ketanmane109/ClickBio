@@ -1,12 +1,12 @@
 import { motion } from "framer-motion";
-import { Link2, Palette, BarChart3, Sparkles, GripVertical, Smartphone } from "lucide-react";
+import { Link2, Palette, BarChart3, GripVertical, Smartphone, Star } from "lucide-react";
 
 const features = [
   { icon: Link2, title: "Bio Page Builder", desc: "Add links, photos, bios, and media embeds. Your page, your rules." },
   { icon: Palette, title: "10 Beautiful Themes", desc: "From dark to neon to gold — pick a theme that matches your brand." },
   { icon: GripVertical, title: "Drag & Drop", desc: "Reorder your links with simple drag and drop. No code needed." },
   { icon: BarChart3, title: "Link Analytics", desc: "Track clicks, top links, and daily engagement on your dashboard." },
-  { icon: Sparkles, title: "5 AI Creator Tools", desc: "Generate bios, viral hooks, captions, hashtags, and content ideas." },
+  { icon: Star, title: "Featured Link", desc: "Highlight your most important link as a big standout button." },
   { icon: Smartphone, title: "Mobile First", desc: "Pages load fast and look stunning on every phone and screen size." },
 ];
 

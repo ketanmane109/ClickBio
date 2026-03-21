@@ -12,16 +12,14 @@ const HeroSection = () => {
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-sm text-primary mb-6">
               <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
-              AI-Powered Creator Platform
+              Link in Bio for Creators
             </div>
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.05] mb-6">
-              Your links,{" "}
-              <span className="text-gradient">your brand,</span>
-              <br />
-              one page.
+              Turn one bio link into your{" "}
+              <span className="text-gradient">entire creator hub.</span>
             </h1>
             <p className="text-lg text-muted-foreground max-w-md mb-8 leading-relaxed">
-              Build a stunning bio page and unlock AI tools to grow your audience. Everything creators need, in one place.
+              Build a fast, beautiful bio page. Share one link for all your content across Instagram, TikTok, and YouTube.
             </p>
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
               <Button variant="hero" size="lg" asChild>

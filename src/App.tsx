@@ -13,7 +13,6 @@ const DashboardHome = lazy(() => import("./pages/dashboard/DashboardHome"));
 const BioPageEditor = lazy(() => import("./pages/dashboard/BioPageEditor"));
 const ThemesPage = lazy(() => import("./pages/dashboard/ThemesPage"));
 const AnalyticsPage = lazy(() => import("./pages/dashboard/AnalyticsPage"));
-const AIToolsPage = lazy(() => import("./pages/dashboard/AIToolsPage"));
 const PricingPage = lazy(() => import("./pages/dashboard/PricingPage"));
 const SettingsPage = lazy(() => import("./pages/dashboard/SettingsPage"));
 const PublicProfile = lazy(() => import("./pages/PublicProfile"));
@@ -44,7 +43,6 @@ const AppRoutes = () => (
         <Route path="bio" element={<BioPageEditor />} />
         <Route path="themes" element={<ThemesPage />} />
         <Route path="analytics" element={<AnalyticsPage />} />
-        <Route path="ai" element={<AIToolsPage />} />
         <Route path="pricing" element={<PricingPage />} />
         <Route path="settings" element={<SettingsPage />} />
       </Route>

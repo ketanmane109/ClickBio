@@ -21,13 +21,13 @@ const themes = [
 
 const ThemesPage = () => {
   const { profile, updateProfile, loading } = useProfile();
-  const { isPro } = useSubscription();
+  const { isPaid } = useSubscription();
   const [showUpgrade, setShowUpgrade] = useState(false);
 
   if (loading) return <div className="flex items-center justify-center py-20"><div className="animate-spin h-8 w-8 border-2 border-primary border-t-transparent rounded-full" /></div>;
 
   const handleSelect = async (theme: typeof themes[0]) => {
-    if (!theme.free && !isPro) {
+    if (!theme.free && !isPaid) {
       setShowUpgrade(true);
       return;
     }
@@ -40,7 +40,7 @@ const ThemesPage = () => {
       <h1 className="text-2xl font-display font-bold mb-6">Themes</h1>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         {themes.map((t) => {
-          const locked = !t.free && !isPro;
+          const locked = !t.free && !isPaid;
           return (
             <button
               key={t.id}

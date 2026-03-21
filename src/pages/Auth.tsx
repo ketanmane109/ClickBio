@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Sparkles } from "lucide-react";
+import { Link2 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
@@ -24,7 +24,7 @@ const Auth = () => {
         toast.success("Welcome back!");
       } else {
         await signUp(email, password);
-        toast.success("Account created!");
+        toast.success("Account created! Check your email to verify.");
       }
       navigate("/dashboard");
     } catch (err: any) {
@@ -46,8 +46,8 @@ const Auth = () => {
     <div className="min-h-screen bg-background flex items-center justify-center px-4">
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-sm">
         <div className="flex items-center justify-center gap-2 mb-8">
-          <Sparkles className="h-6 w-6 text-primary" />
-          <span className="font-display text-2xl font-bold">CreatorHub AI</span>
+          <Link2 className="h-6 w-6 text-primary" />
+          <span className="font-display text-2xl font-bold">clickbio</span>
         </div>
 
         <div className="rounded-2xl border border-border bg-card p-6">
