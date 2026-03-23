@@ -7,9 +7,9 @@ const Footer = () => {
       <div className="container flex flex-col md:flex-row items-center justify-between gap-4">
         <Link to="/" className="flex items-center gap-2 font-display font-bold">
           <Link2 className="h-4 w-4 text-primary" />
-          clickbio
+          BioSpark
         </Link>
-        <p className="text-xs text-muted-foreground">© 2026 clickbio. All rights reserved.</p>
+        <p className="text-xs text-muted-foreground">© 2026 BioSpark. All rights reserved.</p>
       </div>
     </footer>
   );

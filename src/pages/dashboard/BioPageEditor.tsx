@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
-import { Plus, Trash2, GripVertical, Star, Copy, Upload, Eye } from "lucide-react";
+import { Plus, Trash2, GripVertical, Star, Copy, Upload, Eye, ImageIcon } from "lucide-react";
 import { DragDropContext, Droppable, Draggable, type DropResult } from "@hello-pangea/dnd";
 import { toast } from "sonner";
 import { useProfile } from "@/hooks/useProfile";
@@ -12,9 +12,10 @@ import { motion } from "framer-motion";
 import UpgradeModal from "@/components/UpgradeModal";
 
 const BioPageEditor = () => {
-  const { profile, links, loading, updateProfile, addLink, updateLink, deleteLink, reorderLinks, uploadAvatar } = useProfile();
-  const { maxLinks } = useSubscription();
+  const { profile, links, loading, updateProfile, addLink, updateLink, deleteLink, reorderLinks, uploadAvatar, uploadBackground } = useProfile();
+  const { maxLinks, isPro } = useSubscription();
   const fileRef = useRef<HTMLInputElement>(null);
+  const bgFileRef = useRef<HTMLInputElement>(null);
   const [showUpgrade, setShowUpgrade] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
 
@@ -47,6 +48,15 @@ const BioPageEditor = () => {
     if (!file) return;
     const url = await uploadAvatar(file);
     if (url) toast.success("Avatar uploaded!");
+    else toast.error("Upload failed");
+  };
+
+  const handleBackgroundUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!isPro) { setShowUpgrade(true); return; }
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const url = await uploadBackground(file);
+    if (url) toast.success("Background uploaded!");
     else toast.error("Upload failed");
   };
 
@@ -89,6 +99,43 @@ const BioPageEditor = () => {
               <Button variant="outline" size="sm" onClick={() => fileRef.current?.click()}>
                 <Upload className="h-3.5 w-3.5 mr-1" /> Upload
               </Button>
+            </div>
+          </div>
+
+          {/* Background Image - Pro Only */}
+          <div className="mb-6">
+            <label className="text-sm font-medium mb-1.5 block">
+              Background Image
+              {!isPro && <span className="text-xs text-muted-foreground ml-2">(Pro only)</span>}
+            </label>
+            <div className="flex items-center gap-4">
+              {profile.background_image ? (
+                <div className="w-24 h-16 rounded-lg overflow-hidden border border-border">
+                  <img src={profile.background_image} alt="Background" className="w-full h-full object-cover" />
+                </div>
+              ) : (
+                <div className="w-24 h-16 rounded-lg bg-muted flex items-center justify-center">
+                  <ImageIcon className="h-5 w-5 text-muted-foreground" />
+                </div>
+              )}
+              <input type="file" ref={bgFileRef} accept="image/*" className="hidden" onChange={handleBackgroundUpload} />
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    if (!isPro) { setShowUpgrade(true); return; }
+                    bgFileRef.current?.click();
+                  }}
+                >
+                  <Upload className="h-3.5 w-3.5 mr-1" /> {isPro ? "Upload" : "🔒 Upgrade"}
+                </Button>
+                {profile.background_image && isPro && (
+                  <Button variant="ghost" size="sm" onClick={() => updateProfile({ background_image: "" })}>
+                    Remove
+                  </Button>
+                )}
+              </div>
             </div>
           </div>
 

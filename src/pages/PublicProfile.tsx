@@ -104,8 +104,17 @@ const PublicProfile = () => {
   const regularLinks = links.filter((l) => !l.featured);
 
   return (
-    <div className={`min-h-screen ${t.bg} ${t.fg} flex justify-center`}>
-      <div className="w-full max-w-md px-6 py-12">
+    <div
+      className={`min-h-screen ${t.bg} ${t.fg} flex justify-center`}
+      style={profile.background_image ? {
+        backgroundImage: `url(${profile.background_image})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      } : undefined}
+    >
+      {profile.background_image && <div className="absolute inset-0 bg-black/40" />}
+      <div className="w-full max-w-md px-6 py-12 relative z-10">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col items-center mb-8">
           {profile.avatar_url ? (
             <img src={profile.avatar_url} alt={profile.name || ""} className="w-24 h-24 rounded-full object-cover border-2 border-current/20 mb-4 shadow-lg" />
@@ -148,10 +157,10 @@ const PublicProfile = () => {
             <div className="mb-4 rounded-lg border border-current/10 bg-current/5 px-4 py-3">
               <p className="text-xs opacity-50 mb-1">Advertisement</p>
               <p className="text-sm font-medium opacity-70">Create your own bio page for free</p>
-              <a href="/" className="text-xs text-primary underline opacity-80">Get started with clickbio →</a>
+              <a href="/" className="text-xs text-primary underline opacity-80">Get started with BioSpark →</a>
             </div>
           )}
-          <p className="text-xs opacity-40">Powered by clickbio</p>
+          <p className="text-xs opacity-40">Powered by BioSpark</p>
         </div>
       </div>
     </div>
