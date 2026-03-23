@@ -8,7 +8,7 @@ const plans = [
   {
     name: "Free",
     price: "₹0",
-    features: ["5 links", "2 basic themes", "clickbio branding", "Ads on bio page"],
+    features: ["5 links", "2 basic themes", "BioSpark branding", "Ads on bio page"],
     key: "free",
   },
   {

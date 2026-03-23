@@ -12,7 +12,7 @@ const TestimonialsSection = () => {
       <div className="container">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Loved by <span className="text-gradient">creators</span></h2>
-          <p className="text-muted-foreground">Join thousands building their brand with clickbio.</p>
+          <p className="text-muted-foreground">Join thousands building their brand with BioSpark.</p>
         </motion.div>
         <div className="grid md:grid-cols-3 gap-6">
           {testimonials.map((t, i) => (
