@@ -23,7 +23,7 @@ const UpgradeModal = ({ open, onOpenChange }: UpgradeModalProps) => {
           </DialogDescription>
         </DialogHeader>
         <ul className="space-y-2 my-4">
-          {["All 5 AI creator tools", "Unlimited links", "All 10 themes", "Full analytics", "No branding"].map((f) => (
+          {["Unlimited links", "All 10 themes", "Custom background", "Full analytics", "No branding"].map((f) => (
             <li key={f} className="flex items-center gap-2 text-sm">
               <Check className="h-4 w-4 text-primary shrink-0" /> {f}
             </li>

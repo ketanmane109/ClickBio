@@ -92,5 +92,15 @@ export function useProfile() {
     return publicUrl;
   };
 
-  return { profile, links, loading, updateProfile, addLink, updateLink, deleteLink, reorderLinks, uploadAvatar, refetch: fetchProfile };
+  const uploadBackground = async (file: File) => {
+    if (!user || !profile) return null;
+    const path = `${user.id}/${Date.now()}-${file.name}`;
+    const { error } = await supabase.storage.from("backgrounds").upload(path, file);
+    if (error) return null;
+    const { data: { publicUrl } } = supabase.storage.from("backgrounds").getPublicUrl(path);
+    await updateProfile({ background_image: publicUrl });
+    return publicUrl;
+  };
+
+  return { profile, links, loading, updateProfile, addLink, updateLink, deleteLink, reorderLinks, uploadAvatar, uploadBackground, refetch: fetchProfile };
 }
