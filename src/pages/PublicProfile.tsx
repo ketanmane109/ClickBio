@@ -19,6 +19,26 @@ const themeStyles: Record<string, { bg: string; fg: string; btn: string; btnHove
     btn: "bg-[hsl(0,0%,92%)] text-[hsl(0,0%,10%)]", btnHover: "hover:bg-[hsl(0,0%,10%)] hover:text-[hsl(0,0%,98%)]",
     featured: "bg-[hsl(0,0%,10%)] text-[hsl(0,0%,98%)]",
   },
+  bw: {
+    bg: "bg-[hsl(0,0%,0%)]", fg: "text-[hsl(0,0%,100%)]",
+    btn: "bg-[hsl(0,0%,15%)] text-[hsl(0,0%,100%)] border border-[hsl(0,0%,25%)]", btnHover: "hover:bg-[hsl(0,0%,100%)] hover:text-[hsl(0,0%,0%)]",
+    featured: "bg-[hsl(0,0%,100%)] text-[hsl(0,0%,0%)] font-bold",
+  },
+  softgray: {
+    bg: "bg-[hsl(220,10%,94%)]", fg: "text-[hsl(220,10%,20%)]",
+    btn: "bg-[hsl(220,10%,88%)] text-[hsl(220,10%,20%)]", btnHover: "hover:bg-[hsl(220,50%,50%)] hover:text-[hsl(0,0%,100%)]",
+    featured: "bg-[hsl(220,50%,50%)] text-[hsl(0,0%,100%)]",
+  },
+  simplegradient: {
+    bg: "bg-gradient-to-b from-[hsl(220,30%,15%)] to-[hsl(240,20%,8%)]", fg: "text-[hsl(0,0%,96%)]",
+    btn: "bg-[hsl(220,30%,22%)] text-[hsl(0,0%,96%)]", btnHover: "hover:bg-[hsl(220,80%,60%)] hover:text-[hsl(0,0%,100%)]",
+    featured: "bg-[hsl(220,80%,60%)] text-[hsl(0,0%,100%)]",
+  },
+  neon: {
+    bg: "bg-[hsl(260,100%,5%)]", fg: "text-[hsl(280,100%,70%)]",
+    btn: "bg-[hsl(280,100%,20%)] text-[hsl(280,100%,70%)] border border-[hsl(280,100%,50%)]/30", btnHover: "hover:bg-[hsl(280,100%,50%)] hover:text-[hsl(0,0%,100%)]",
+    featured: "bg-[hsl(280,100%,60%)] text-[hsl(0,0%,100%)] shadow-[0_0_20px_hsl(280,100%,60%)]",
+  },
   gradient: {
     bg: "bg-gradient-to-br from-[hsl(270,60%,20%)] to-[hsl(300,50%,15%)]", fg: "text-[hsl(0,0%,100%)]",
     btn: "bg-[hsl(270,50%,35%)]/60 text-[hsl(0,0%,100%)] backdrop-blur", btnHover: "hover:bg-[hsl(300,70%,60%)]",
@@ -27,37 +47,42 @@ const themeStyles: Record<string, { bg: string; fg: string; btn: string; btnHove
   glass: {
     bg: "bg-gradient-to-br from-[hsl(210,40%,15%)] to-[hsl(220,30%,25%)]", fg: "text-[hsl(0,0%,96%)]",
     btn: "bg-[hsl(0,0%,100%)]/10 text-[hsl(0,0%,96%)] backdrop-blur-md border border-[hsl(0,0%,100%)]/20", btnHover: "hover:bg-[hsl(0,0%,100%)]/20",
-    featured: "bg-[hsl(142,72%,50%)] text-[hsl(0,0%,3%)]",
+    featured: "bg-[hsl(210,80%,60%)] text-[hsl(0,0%,100%)]",
   },
-  neon: {
-    bg: "bg-[hsl(260,100%,5%)]", fg: "text-[hsl(280,100%,70%)]",
-    btn: "bg-[hsl(280,100%,20%)] text-[hsl(280,100%,70%)] border border-[hsl(280,100%,50%)]/30", btnHover: "hover:bg-[hsl(280,100%,50%)] hover:text-[hsl(0,0%,100%)]",
-    featured: "bg-[hsl(280,100%,60%)] text-[hsl(0,0%,100%)] shadow-[0_0_20px_hsl(280,100%,60%)]",
+  sunset: {
+    bg: "bg-gradient-to-br from-[hsl(30,80%,55%)] to-[hsl(350,70%,45%)]", fg: "text-[hsl(0,0%,100%)]",
+    btn: "bg-[hsl(0,0%,100%)]/20 text-[hsl(0,0%,100%)] backdrop-blur", btnHover: "hover:bg-[hsl(0,0%,100%)]/35",
+    featured: "bg-[hsl(0,0%,100%)] text-[hsl(350,70%,45%)]",
   },
-  pastel: {
-    bg: "bg-[hsl(330,50%,95%)]", fg: "text-[hsl(330,30%,25%)]",
-    btn: "bg-[hsl(330,40%,88%)] text-[hsl(330,30%,25%)]", btnHover: "hover:bg-[hsl(330,50%,80%)]",
-    featured: "bg-[hsl(330,60%,65%)] text-[hsl(0,0%,100%)]",
+  nature: {
+    bg: "bg-gradient-to-b from-[hsl(140,30%,15%)] to-[hsl(160,25%,10%)]", fg: "text-[hsl(140,40%,85%)]",
+    btn: "bg-[hsl(140,30%,20%)] text-[hsl(140,40%,85%)]", btnHover: "hover:bg-[hsl(140,60%,55%)] hover:text-[hsl(0,0%,100%)]",
+    featured: "bg-[hsl(140,60%,55%)] text-[hsl(0,0%,100%)]",
   },
-  clean: {
-    bg: "bg-[hsl(0,0%,100%)]", fg: "text-[hsl(0,0%,15%)]",
-    btn: "bg-[hsl(0,0%,96%)] text-[hsl(0,0%,15%)] border border-[hsl(0,0%,88%)]", btnHover: "hover:bg-[hsl(0,0%,90%)]",
-    featured: "bg-[hsl(0,0%,15%)] text-[hsl(0,0%,100%)]",
+  glassmorphism: {
+    bg: "bg-gradient-to-br from-[hsl(240,30%,20%)] to-[hsl(280,25%,15%)]", fg: "text-[hsl(0,0%,100%)]",
+    btn: "bg-[hsl(0,0%,100%)]/10 text-[hsl(0,0%,100%)] backdrop-blur-xl border border-[hsl(0,0%,100%)]/15 shadow-lg", btnHover: "hover:bg-[hsl(0,0%,100%)]/20",
+    featured: "bg-[hsl(240,80%,70%)] text-[hsl(0,0%,100%)] shadow-[0_0_24px_hsl(240,80%,70%/0.4)]",
   },
-  bold: {
-    bg: "bg-[hsl(0,80%,50%)]", fg: "text-[hsl(0,0%,100%)]",
-    btn: "bg-[hsl(0,0%,100%)]/20 text-[hsl(0,0%,100%)] border border-[hsl(0,0%,100%)]/30", btnHover: "hover:bg-[hsl(0,0%,100%)] hover:text-[hsl(0,80%,50%)]",
-    featured: "bg-[hsl(0,0%,100%)] text-[hsl(0,80%,50%)] font-bold",
+  gold: {
+    bg: "bg-[hsl(40,30%,8%)]", fg: "text-[hsl(45,80%,60%)]",
+    btn: "bg-[hsl(45,50%,15%)] text-[hsl(45,80%,60%)] border border-[hsl(45,80%,40%)]/30", btnHover: "hover:bg-[hsl(45,80%,50%)] hover:text-[hsl(40,30%,8%)]",
+    featured: "bg-gradient-to-r from-[hsl(45,80%,50%)] to-[hsl(35,90%,55%)] text-[hsl(40,30%,8%)]",
   },
   instagram: {
     bg: "bg-gradient-to-br from-[hsl(45,100%,55%)] via-[hsl(340,80%,55%)] to-[hsl(280,80%,55%)]", fg: "text-[hsl(0,0%,100%)]",
     btn: "bg-[hsl(0,0%,100%)]/25 text-[hsl(0,0%,100%)] backdrop-blur-md", btnHover: "hover:bg-[hsl(0,0%,100%)]/40",
     featured: "bg-[hsl(0,0%,100%)] text-[hsl(340,80%,45%)]",
   },
-  gold: {
-    bg: "bg-[hsl(40,30%,10%)]", fg: "text-[hsl(45,80%,60%)]",
-    btn: "bg-[hsl(45,50%,20%)] text-[hsl(45,80%,60%)] border border-[hsl(45,80%,40%)]/30", btnHover: "hover:bg-[hsl(45,80%,50%)] hover:text-[hsl(40,30%,10%)]",
-    featured: "bg-gradient-to-r from-[hsl(45,80%,50%)] to-[hsl(35,90%,55%)] text-[hsl(40,30%,10%)]",
+  youtube: {
+    bg: "bg-[hsl(0,0%,7%)]", fg: "text-[hsl(0,0%,96%)]",
+    btn: "bg-[hsl(0,75%,45%)] text-[hsl(0,0%,100%)]", btnHover: "hover:bg-[hsl(0,80%,55%)]",
+    featured: "bg-[hsl(0,0%,100%)] text-[hsl(0,75%,45%)] font-bold",
+  },
+  pastel: {
+    bg: "bg-gradient-to-br from-[hsl(330,50%,92%)] to-[hsl(270,40%,90%)]", fg: "text-[hsl(330,30%,25%)]",
+    btn: "bg-[hsl(330,40%,85%)] text-[hsl(330,30%,25%)]", btnHover: "hover:bg-[hsl(300,50%,55%)] hover:text-[hsl(0,0%,100%)]",
+    featured: "bg-[hsl(300,50%,55%)] text-[hsl(0,0%,100%)]",
   },
 };
 
@@ -77,7 +102,6 @@ const PublicProfile = () => {
       if (!profileData) { setNotFound(true); setLoading(false); return; }
       setProfile(profileData);
 
-      // Check if user is on free plan (show ads)
       const { data: sub } = await supabase
         .from("subscriptions").select("plan, status").eq("user_id", profileData.user_id).single();
       const isPaid = sub && (sub.plan === "basic" || sub.plan === "pro") && sub.status === "active";
@@ -157,7 +181,7 @@ const PublicProfile = () => {
             <div className="mb-4 rounded-lg border border-current/10 bg-current/5 px-4 py-3">
               <p className="text-xs opacity-50 mb-1">Advertisement</p>
               <p className="text-sm font-medium opacity-70">Create your own bio page for free</p>
-              <a href="/" className="text-xs text-primary underline opacity-80">Get started with BioSpark →</a>
+              <a href="/" className="text-xs underline opacity-80">Get started with BioSpark →</a>
             </div>
           )}
           <p className="text-xs opacity-40">Powered by BioSpark</p>
