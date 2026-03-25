@@ -13,7 +13,7 @@ import UpgradeModal from "@/components/UpgradeModal";
 
 const BioPageEditor = () => {
   const { profile, links, loading, updateProfile, addLink, updateLink, deleteLink, reorderLinks, uploadAvatar, uploadBackground } = useProfile();
-  const { maxLinks, isPro } = useSubscription();
+  const { maxLinks, isPaid, testingMode } = useSubscription();
   const fileRef = useRef<HTMLInputElement>(null);
   const bgFileRef = useRef<HTMLInputElement>(null);
   const [showUpgrade, setShowUpgrade] = useState(false);
@@ -52,7 +52,7 @@ const BioPageEditor = () => {
   };
 
   const handleBackgroundUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!isPro) { setShowUpgrade(true); return; }
+    if (!isPaid && !testingMode) { setShowUpgrade(true); return; }
     const file = e.target.files?.[0];
     if (!file) return;
     const url = await uploadBackground(file);
@@ -106,7 +106,8 @@ const BioPageEditor = () => {
           <div className="mb-6">
             <label className="text-sm font-medium mb-1.5 block">
               Background Image
-              {!isPro && <span className="text-xs text-muted-foreground ml-2">(Pro only)</span>}
+              {!isPaid && !testingMode && <span className="text-xs text-muted-foreground ml-2">(Basic+ only)</span>}
+              {testingMode && <span className="text-xs text-primary ml-2">(unlocked for testing)</span>}
             </label>
             <div className="flex items-center gap-4">
               {profile.background_image ? (
@@ -124,13 +125,13 @@ const BioPageEditor = () => {
                   variant="outline"
                   size="sm"
                   onClick={() => {
-                    if (!isPro) { setShowUpgrade(true); return; }
+                    if (!isPaid && !testingMode) { setShowUpgrade(true); return; }
                     bgFileRef.current?.click();
                   }}
                 >
-                  <Upload className="h-3.5 w-3.5 mr-1" /> {isPro ? "Upload" : "🔒 Upgrade"}
+                  <Upload className="h-3.5 w-3.5 mr-1" /> {isPaid || testingMode ? "Upload" : "🔒 Upgrade"}
                 </Button>
-                {profile.background_image && isPro && (
+                {profile.background_image && (isPaid || testingMode) && (
                   <Button variant="ghost" size="sm" onClick={() => updateProfile({ background_image: "" })}>
                     Remove
                   </Button>

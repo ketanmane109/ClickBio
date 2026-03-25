@@ -17,6 +17,8 @@ const PricingPage = lazy(() => import("./pages/dashboard/PricingPage"));
 const SettingsPage = lazy(() => import("./pages/dashboard/SettingsPage"));
 const PublicProfile = lazy(() => import("./pages/PublicProfile"));
 const NotFound = lazy(() => import("./pages/NotFound"));
+const PaymentSuccess = lazy(() => import("./pages/PaymentSuccess"));
+const PaymentFailed = lazy(() => import("./pages/PaymentFailed"));
 
 const queryClient = new QueryClient();
 
@@ -46,6 +48,8 @@ const AppRoutes = () => (
         <Route path="pricing" element={<PricingPage />} />
         <Route path="settings" element={<SettingsPage />} />
       </Route>
+      <Route path="/payment-success" element={<PaymentSuccess />} />
+      <Route path="/payment-failed" element={<PaymentFailed />} />
       <Route path="/:username" element={<PublicProfile />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
