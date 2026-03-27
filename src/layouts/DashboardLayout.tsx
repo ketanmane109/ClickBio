@@ -28,7 +28,7 @@ const DashboardLayout = () => {
             <SidebarTrigger />
             <Link to="/" className="flex items-center gap-2 font-display font-bold">
               <Link2 className="h-4 w-4 text-primary" />
-              BioSpark
+              clickbio
             </Link>
             <div className="flex-1" />
             {profile?.username && (

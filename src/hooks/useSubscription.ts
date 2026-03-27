@@ -9,7 +9,7 @@ export type Subscription = {
   status: string;
 };
 
-const TESTING_MODE = true; // Unlock all features for testing
+const TESTING_MODE = false;
 
 export function useSubscription() {
   const { user } = useAuth();

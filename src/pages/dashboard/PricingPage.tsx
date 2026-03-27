@@ -14,7 +14,7 @@ const plans = [
     name: "Free",
     price: "₹0",
     icon: Zap,
-    features: ["5 links", "5 basic themes", "BioSpark branding", "Ads on bio page"],
+    features: ["5 links", "5 basic themes", "clickbio branding", "Ads on bio page"],
     key: "free",
   },
   {
@@ -65,7 +65,7 @@ const PricingPage = () => {
       key: RAZORPAY_KEY,
       amount,
       currency: "INR",
-      name: "BioSpark",
+      name: "clickbio",
       description: `${targetPlan.charAt(0).toUpperCase() + targetPlan.slice(1)} Plan - Monthly`,
       prefill: {
         email: user?.email || "",

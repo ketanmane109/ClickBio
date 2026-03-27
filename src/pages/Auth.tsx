@@ -47,7 +47,7 @@ const Auth = () => {
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-sm">
         <div className="flex items-center justify-center gap-2 mb-8">
           <Link2 className="h-6 w-6 text-primary" />
-          <span className="font-display text-2xl font-bold">BioSpark</span>
+          <span className="font-display text-2xl font-bold">clickbio</span>
         </div>
 
         <div className="rounded-2xl border border-border bg-card p-6">

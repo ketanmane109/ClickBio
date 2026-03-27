@@ -30,7 +30,7 @@ const themes = [
 
 type Theme = typeof themes[0];
 
-const TESTING_MODE = true; // Toggle for dev/testing
+const TESTING_MODE = false;
 
 const tierOrder = { free: 0, basic: 1, pro: 2 };
 const tierLabel: Record<string, string> = { free: "Free", basic: "Basic", pro: "Pro" };
@@ -140,7 +140,7 @@ const ThemesPage = () => {
                       </div>
                     ))}
                   </div>
-                  <p className={`text-[10px] opacity-30 mt-auto pt-6 ${previewTheme.fg}`}>Powered by BioSpark</p>
+                  <p className={`text-[10px] opacity-30 mt-auto pt-6 ${previewTheme.fg}`}>Powered by clickbio</p>
                 </div>
               </div>
 
