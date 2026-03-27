@@ -1,9 +1,11 @@
 import { useProfile } from "@/hooks/useProfile";
+import { useSubscription } from "@/hooks/useSubscription";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
 import { Lock, Check, Sparkles, X } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import UpgradeModal from "@/components/UpgradeModal";
 
 const themes = [
   // Basic themes (free)
@@ -37,11 +39,26 @@ const tierLabel: Record<string, string> = { free: "Free", basic: "Basic", pro: "
 
 const ThemesPage = () => {
   const { profile, updateProfile, loading } = useProfile();
+  const { plan, isPaid, isPro } = useSubscription();
   const [previewTheme, setPreviewTheme] = useState<Theme | null>(null);
+  const [showUpgrade, setShowUpgrade] = useState(false);
+
+  const canUseTheme = (tier: string) => {
+    if (TESTING_MODE) return true;
+    if (tier === "free") return true;
+    if (tier === "basic") return isPaid; // basic or pro
+    if (tier === "pro") return isPro;
+    return false;
+  };
 
   if (loading) return <div className="flex items-center justify-center py-20"><div className="animate-spin h-8 w-8 border-2 border-primary border-t-transparent rounded-full" /></div>;
 
   const handleSelect = async (theme: Theme) => {
+    if (!canUseTheme(theme.tier)) {
+      setPreviewTheme(null);
+      setShowUpgrade(true);
+      return;
+    }
     await updateProfile({ theme: theme.id });
     toast.success(`Theme "${theme.label}" applied!`);
     setPreviewTheme(null);
