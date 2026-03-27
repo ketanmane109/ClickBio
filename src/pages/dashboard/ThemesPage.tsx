@@ -178,6 +178,7 @@ const ThemesPage = () => {
           </motion.div>
         )}
       </AnimatePresence>
+      <UpgradeModal open={showUpgrade} onOpenChange={setShowUpgrade} />
     </motion.div>
   );
 };
