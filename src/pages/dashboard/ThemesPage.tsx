@@ -100,18 +100,18 @@ const ThemesPage = () => {
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
             {groupedThemes[tier].map((t) => {
               const isActive = profile?.theme === t.id;
+              const locked = !canUseTheme(t.tier);
               return (
                 <motion.button
                   key={t.id}
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.98 }}
-                  onClick={() => setPreviewTheme(t)}
-                  className={`rounded-xl border-2 transition-all duration-200 overflow-hidden group ${
+                  onClick={() => locked ? setShowUpgrade(true) : setPreviewTheme(t)}
+                  className={`rounded-xl border-2 transition-all duration-200 overflow-hidden group relative ${
                     isActive ? "border-primary shadow-[0_0_16px_hsl(142,72%,50%/0.2)]" : "border-border hover:border-muted-foreground/30"
-                  }`}
+                  } ${locked ? "opacity-60" : ""}`}
                 >
                   <div className={`${t.preview} h-24 flex flex-col items-center justify-center gap-1.5 p-3 relative`}>
-                    {/* Mini preview mockup */}
                     <div className="w-6 h-6 rounded-full bg-current/20 border border-current/20" />
                     <div className={`w-16 h-2 rounded-full ${t.btnPreview}`} />
                     <div className={`w-14 h-2 rounded-full ${t.btnPreview} opacity-70`} />
@@ -120,9 +120,14 @@ const ThemesPage = () => {
                         <Check className="h-3 w-3 text-primary-foreground" />
                       </div>
                     )}
+                    {locked && (
+                      <div className="absolute top-2 left-2 bg-background/80 rounded-full p-1">
+                        <Lock className="h-3 w-3 text-muted-foreground" />
+                      </div>
+                    )}
                   </div>
                   <div className="bg-card px-3 py-2 text-left">
-                    <p className={`text-xs font-display font-semibold truncate ${t.fg.includes("100") || t.fg.includes("96") ? "text-foreground" : "text-foreground"}`}>{t.label}</p>
+                    <p className="text-xs font-display font-semibold truncate text-foreground">{t.label}</p>
                   </div>
                 </motion.button>
               );
