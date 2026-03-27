@@ -29,7 +29,7 @@ const UpgradeModal = ({ open, onOpenChange }: UpgradeModalProps) => {
             </li>
           ))}
         </ul>
-        <p className="text-2xl font-display font-bold mb-4">₹199<span className="text-sm text-muted-foreground font-normal">/month</span></p>
+        <p className="text-2xl font-display font-bold mb-4">From ₹99<span className="text-sm text-muted-foreground font-normal">/month</span></p>
         <Button variant="hero" className="w-full" onClick={() => { onOpenChange(false); navigate("/dashboard/pricing"); }}>
           View Pricing Plans
         </Button>

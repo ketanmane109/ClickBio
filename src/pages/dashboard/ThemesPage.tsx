@@ -1,9 +1,11 @@
 import { useProfile } from "@/hooks/useProfile";
+import { useSubscription } from "@/hooks/useSubscription";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
 import { Lock, Check, Sparkles, X } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import UpgradeModal from "@/components/UpgradeModal";
 
 const themes = [
   // Basic themes (free)
@@ -30,18 +32,33 @@ const themes = [
 
 type Theme = typeof themes[0];
 
-const TESTING_MODE = true; // Toggle for dev/testing
+const TESTING_MODE = false;
 
 const tierOrder = { free: 0, basic: 1, pro: 2 };
 const tierLabel: Record<string, string> = { free: "Free", basic: "Basic", pro: "Pro" };
 
 const ThemesPage = () => {
   const { profile, updateProfile, loading } = useProfile();
+  const { plan, isPaid, isPro } = useSubscription();
   const [previewTheme, setPreviewTheme] = useState<Theme | null>(null);
+  const [showUpgrade, setShowUpgrade] = useState(false);
+
+  const canUseTheme = (tier: string) => {
+    if (TESTING_MODE) return true;
+    if (tier === "free") return true;
+    if (tier === "basic") return isPaid; // basic or pro
+    if (tier === "pro") return isPro;
+    return false;
+  };
 
   if (loading) return <div className="flex items-center justify-center py-20"><div className="animate-spin h-8 w-8 border-2 border-primary border-t-transparent rounded-full" /></div>;
 
   const handleSelect = async (theme: Theme) => {
+    if (!canUseTheme(theme.tier)) {
+      setPreviewTheme(null);
+      setShowUpgrade(true);
+      return;
+    }
     await updateProfile({ theme: theme.id });
     toast.success(`Theme "${theme.label}" applied!`);
     setPreviewTheme(null);
@@ -83,18 +100,18 @@ const ThemesPage = () => {
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
             {groupedThemes[tier].map((t) => {
               const isActive = profile?.theme === t.id;
+              const locked = !canUseTheme(t.tier);
               return (
                 <motion.button
                   key={t.id}
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.98 }}
-                  onClick={() => setPreviewTheme(t)}
-                  className={`rounded-xl border-2 transition-all duration-200 overflow-hidden group ${
+                  onClick={() => locked ? setShowUpgrade(true) : setPreviewTheme(t)}
+                  className={`rounded-xl border-2 transition-all duration-200 overflow-hidden group relative ${
                     isActive ? "border-primary shadow-[0_0_16px_hsl(142,72%,50%/0.2)]" : "border-border hover:border-muted-foreground/30"
-                  }`}
+                  } ${locked ? "opacity-60" : ""}`}
                 >
                   <div className={`${t.preview} h-24 flex flex-col items-center justify-center gap-1.5 p-3 relative`}>
-                    {/* Mini preview mockup */}
                     <div className="w-6 h-6 rounded-full bg-current/20 border border-current/20" />
                     <div className={`w-16 h-2 rounded-full ${t.btnPreview}`} />
                     <div className={`w-14 h-2 rounded-full ${t.btnPreview} opacity-70`} />
@@ -103,9 +120,14 @@ const ThemesPage = () => {
                         <Check className="h-3 w-3 text-primary-foreground" />
                       </div>
                     )}
+                    {locked && (
+                      <div className="absolute top-2 left-2 bg-background/80 rounded-full p-1">
+                        <Lock className="h-3 w-3 text-muted-foreground" />
+                      </div>
+                    )}
                   </div>
                   <div className="bg-card px-3 py-2 text-left">
-                    <p className={`text-xs font-display font-semibold truncate ${t.fg.includes("100") || t.fg.includes("96") ? "text-foreground" : "text-foreground"}`}>{t.label}</p>
+                    <p className="text-xs font-display font-semibold truncate text-foreground">{t.label}</p>
                   </div>
                 </motion.button>
               );
@@ -140,7 +162,7 @@ const ThemesPage = () => {
                       </div>
                     ))}
                   </div>
-                  <p className={`text-[10px] opacity-30 mt-auto pt-6 ${previewTheme.fg}`}>Powered by BioSpark</p>
+                  <p className={`text-[10px] opacity-30 mt-auto pt-6 ${previewTheme.fg}`}>Powered by clickbio</p>
                 </div>
               </div>
 
@@ -156,6 +178,7 @@ const ThemesPage = () => {
           </motion.div>
         )}
       </AnimatePresence>
+      <UpgradeModal open={showUpgrade} onOpenChange={setShowUpgrade} />
     </motion.div>
   );
 };

@@ -181,10 +181,10 @@ const PublicProfile = () => {
             <div className="mb-4 rounded-lg border border-current/10 bg-current/5 px-4 py-3">
               <p className="text-xs opacity-50 mb-1">Advertisement</p>
               <p className="text-sm font-medium opacity-70">Create your own bio page for free</p>
-              <a href="/" className="text-xs underline opacity-80">Get started with BioSpark →</a>
+              <a href="/" className="text-xs underline opacity-80">Get started with clickbio →</a>
             </div>
           )}
-          <p className="text-xs opacity-40">Powered by BioSpark</p>
+          <p className="text-xs opacity-40">Powered by clickbio</p>
         </div>
       </div>
     </div>

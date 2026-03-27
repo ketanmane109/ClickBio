@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Link2, Menu, X } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useState } from "react";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const Navbar = () => {
   const { user } = useAuth();
@@ -13,7 +14,7 @@ const Navbar = () => {
       <div className="container flex h-16 items-center justify-between">
         <Link to="/" className="flex items-center gap-2 font-display text-xl font-bold">
           <Link2 className="h-5 w-5 text-primary" />
-          BioSpark
+          clickbio
         </Link>
         <div className="hidden md:flex items-center gap-8">
           <a href="#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Features</a>
@@ -21,6 +22,7 @@ const Navbar = () => {
           <a href="#testimonials" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Testimonials</a>
         </div>
         <div className="hidden md:flex items-center gap-3">
+          <ThemeToggle />
           {user ? (
             <Button variant="hero" size="sm" asChild>
               <Link to="/dashboard">Dashboard</Link>
