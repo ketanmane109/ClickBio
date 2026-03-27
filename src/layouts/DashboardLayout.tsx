@@ -7,6 +7,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useProfile } from "@/hooks/useProfile";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const DashboardLayout = () => {
   const { signOut } = useAuth();
@@ -31,6 +32,7 @@ const DashboardLayout = () => {
               clickbio
             </Link>
             <div className="flex-1" />
+            <ThemeToggle />
             {profile?.username && (
               <Button variant="ghost" size="sm" asChild>
                 <Link to={`/${profile.username}`} className="flex items-center gap-1">

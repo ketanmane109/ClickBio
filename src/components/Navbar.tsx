@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Link2, Menu, X } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useState } from "react";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const Navbar = () => {
   const { user } = useAuth();
@@ -21,6 +22,7 @@ const Navbar = () => {
           <a href="#testimonials" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Testimonials</a>
         </div>
         <div className="hidden md:flex items-center gap-3">
+          <ThemeToggle />
           {user ? (
             <Button variant="hero" size="sm" asChild>
               <Link to="/dashboard">Dashboard</Link>
