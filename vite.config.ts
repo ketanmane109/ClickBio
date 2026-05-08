@@ -12,7 +12,7 @@ export default defineConfig(({ mode }) => ({
       overlay: false,
     },
   },
-  plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
+  plugins: [react()], // Disabled componentTagger (lovable) - was printing scorecard JSX "157/7" to terminal causing WSOD
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

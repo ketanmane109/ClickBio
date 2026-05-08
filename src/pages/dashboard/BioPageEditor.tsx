@@ -1,23 +1,25 @@
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
-import { Plus, Trash2, GripVertical, Star, Copy, Upload, Eye, ImageIcon } from "lucide-react";
+import { Plus, Trash2, GripVertical, Star, Copy, Upload, Eye, ImageIcon, RefreshCw } from "lucide-react";
 import { DragDropContext, Droppable, Draggable, type DropResult } from "@hello-pangea/dnd";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 import { useProfile } from "@/hooks/useProfile";
 import { useSubscription } from "@/hooks/useSubscription";
+import { useAuth } from "@/contexts/AuthContext";
 import { motion } from "framer-motion";
 import UpgradeModal from "@/components/UpgradeModal";
 
 const BioPageEditor = () => {
-  const { profile, links, loading, updateProfile, addLink, updateLink, deleteLink, reorderLinks, uploadAvatar, uploadBackground } = useProfile();
+  const { profile, links, loading, error, refetch, updateProfile, addLink, updateLink, deleteLink, reorderLinks, uploadAvatar, uploadBackground } = useProfile();
   const { maxLinks, isPaid } = useSubscription();
+  const { user } = useAuth();
   const fileRef = useRef<HTMLInputElement>(null);
   const bgFileRef = useRef<HTMLInputElement>(null);
   const [showUpgrade, setShowUpgrade] = useState(false);
-  const [showPreview, setShowPreview] = useState(false);
 
   const debounceTimers = useRef<Record<string, ReturnType<typeof setTimeout>>>({});
   const debouncedUpdate = useCallback((key: string, fn: () => void) => {
@@ -25,8 +27,62 @@ const BioPageEditor = () => {
     debounceTimers.current[key] = setTimeout(fn, 300);
   }, []);
 
-  if (loading) return <div className="flex items-center justify-center py-20"><div className="animate-spin h-8 w-8 border-2 border-primary border-t-transparent rounded-full" /></div>;
-  if (!profile) return <p className="text-muted-foreground">Profile not found</p>;
+  // Auto-refetch on error after 2s
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => {
+        toast.info("Retrying profile load...");
+        refetch();
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [error, refetch]);
+
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center py-20 space-y-4">
+        <div className="animate-spin h-8 w-8 border-2 border-primary border-t-transparent rounded-full" />
+        <p className="text-sm text-muted-foreground">Loading your profile...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center py-20 space-y-4 text-center max-w-md mx-auto">
+        <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-4">
+          <RefreshCw className="h-8 w-8 animate-spin text-primary" />
+        </div>
+        <div>
+          <h2 className="text-xl font-display font-bold mb-2">Profile setup in progress</h2>
+          <p className="text-muted-foreground mb-4">
+            We're creating your profile. This usually takes just a moment.
+          </p>
+        </div>
+        <Button onClick={refetch} variant="hero">
+          <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+          Retry now
+        </Button>
+      </div>
+    );
+  }
+
+  if (!profile) {
+    return (
+      <div className="flex flex-col items-center justify-center py-20 space-y-4 text-center max-w-md mx-auto">
+        <div className="w-16 h-16 bg-destructive/10 rounded-full flex items-center justify-center mb-4">
+          <RefreshCw className="h-8 w-8 text-destructive" />
+        </div>
+        <div>
+          <h2 className="text-xl font-display font-bold mb-2 text-destructive">Profile error</h2>
+          <p className="text-muted-foreground mb-4">Unable to load profile. Please refresh the page.</p>
+        </div>
+        <Button onClick={refetch} variant="destructive">
+          Retry
+        </Button>
+      </div>
+    );
+  }
 
   const canAddLink = links.length < maxLinks;
 
@@ -52,7 +108,10 @@ const BioPageEditor = () => {
   };
 
   const handleBackgroundUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!isPaid) { setShowUpgrade(true); return; }
+    if (!isPaid) { 
+      setShowUpgrade(true); 
+      return; 
+    }
     const file = e.target.files?.[0];
     if (!file) return;
     const url = await uploadBackground(file);
@@ -60,19 +119,46 @@ const BioPageEditor = () => {
     else toast.error("Upload failed");
   };
 
+  const handlePreview = async () => {
+    try {
+      const { data: userData } = await supabase.auth.getUser()
+
+      if (!userData?.user) return
+
+      const { data: profileData, error } = await supabase
+        .from('profiles')
+        .select('username')
+        .eq('user_id', userData.user.id)
+        .single()
+
+      if (error || !profileData?.username) {
+        console.error("Profile not found")
+        return
+      }
+
+      // Open preview in new tab (SAFE)
+      window.open(`/${profileData.username}`, '_blank')
+    } catch (err) {
+      console.error("Preview error:", err)
+    }
+  };
+
   const handleAddLink = () => {
-    if (!canAddLink) { setShowUpgrade(true); return; }
+    if (!canAddLink) { 
+      setShowUpgrade(true); 
+      return; 
+    }
     addLink();
   };
 
   return (
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-display font-bold">Bio Builder</h1>
+<h1 className="text-2xl font-display font-bold bg-gradient-to-r from-foreground to-primary bg-clip-text text-transparent">Bio Builder</h1>
         <div className="flex gap-2">
           {profile.username && (
-            <Button variant="outline" size="sm" onClick={() => setShowPreview(!showPreview)}>
-              <Eye className="h-3.5 w-3.5 mr-1" /> {showPreview ? "Editor" : "Preview"}
+            <Button onClick={handlePreview}>
+              <Eye className="h-3.5 w-3.5 mr-1" /> Preview
             </Button>
           )}
           <Button variant="outline" size="sm" onClick={copyPageLink}>
@@ -81,12 +167,7 @@ const BioPageEditor = () => {
         </div>
       </div>
 
-      {showPreview && profile.username ? (
-        <div className="rounded-xl border border-border overflow-hidden" style={{ height: "600px" }}>
-          <iframe src={`/${profile.username}`} className="w-full h-full" title="Live Preview" />
-        </div>
-      ) : (
-        <>
+      <div>
           <div className="mb-6">
             <label className="text-sm font-medium mb-1.5 block">Profile Photo</label>
             <div className="flex items-center gap-4">
@@ -163,7 +244,7 @@ const BioPageEditor = () => {
             </div>
           </div>
 
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center justify-between mb-4 mt-6">
             <h3 className="font-display font-semibold">
               Your Links {maxLinks !== Infinity && <span className="text-xs text-muted-foreground">({links.length}/{maxLinks})</span>}
             </h3>
@@ -230,8 +311,7 @@ const BioPageEditor = () => {
               <p className="text-sm">No links yet. Click "Add Link" to get started.</p>
             </div>
           )}
-        </>
-      )}
+      </div>
 
       <UpgradeModal open={showUpgrade} onOpenChange={setShowUpgrade} />
     </motion.div>
@@ -239,3 +319,4 @@ const BioPageEditor = () => {
 };
 
 export default BioPageEditor;
+

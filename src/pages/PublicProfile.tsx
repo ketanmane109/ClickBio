@@ -8,83 +8,7 @@ import { motion } from "framer-motion";
 type Profile = Tables<"profiles">;
 type Link = Tables<"links">;
 
-const themeStyles: Record<string, { bg: string; fg: string; btn: string; btnHover: string; featured: string }> = {
-  dark: {
-    bg: "bg-[hsl(0,0%,5%)]", fg: "text-[hsl(0,0%,96%)]",
-    btn: "bg-[hsl(0,0%,14%)] text-[hsl(0,0%,96%)]", btnHover: "hover:bg-[hsl(142,72%,50%)] hover:text-[hsl(0,0%,3%)]",
-    featured: "bg-[hsl(142,72%,50%)] text-[hsl(0,0%,3%)]",
-  },
-  minimal: {
-    bg: "bg-[hsl(0,0%,98%)]", fg: "text-[hsl(0,0%,10%)]",
-    btn: "bg-[hsl(0,0%,92%)] text-[hsl(0,0%,10%)]", btnHover: "hover:bg-[hsl(0,0%,10%)] hover:text-[hsl(0,0%,98%)]",
-    featured: "bg-[hsl(0,0%,10%)] text-[hsl(0,0%,98%)]",
-  },
-  bw: {
-    bg: "bg-[hsl(0,0%,0%)]", fg: "text-[hsl(0,0%,100%)]",
-    btn: "bg-[hsl(0,0%,15%)] text-[hsl(0,0%,100%)] border border-[hsl(0,0%,25%)]", btnHover: "hover:bg-[hsl(0,0%,100%)] hover:text-[hsl(0,0%,0%)]",
-    featured: "bg-[hsl(0,0%,100%)] text-[hsl(0,0%,0%)] font-bold",
-  },
-  softgray: {
-    bg: "bg-[hsl(220,10%,94%)]", fg: "text-[hsl(220,10%,20%)]",
-    btn: "bg-[hsl(220,10%,88%)] text-[hsl(220,10%,20%)]", btnHover: "hover:bg-[hsl(220,50%,50%)] hover:text-[hsl(0,0%,100%)]",
-    featured: "bg-[hsl(220,50%,50%)] text-[hsl(0,0%,100%)]",
-  },
-  simplegradient: {
-    bg: "bg-gradient-to-b from-[hsl(220,30%,15%)] to-[hsl(240,20%,8%)]", fg: "text-[hsl(0,0%,96%)]",
-    btn: "bg-[hsl(220,30%,22%)] text-[hsl(0,0%,96%)]", btnHover: "hover:bg-[hsl(220,80%,60%)] hover:text-[hsl(0,0%,100%)]",
-    featured: "bg-[hsl(220,80%,60%)] text-[hsl(0,0%,100%)]",
-  },
-  neon: {
-    bg: "bg-[hsl(260,100%,5%)]", fg: "text-[hsl(280,100%,70%)]",
-    btn: "bg-[hsl(280,100%,20%)] text-[hsl(280,100%,70%)] border border-[hsl(280,100%,50%)]/30", btnHover: "hover:bg-[hsl(280,100%,50%)] hover:text-[hsl(0,0%,100%)]",
-    featured: "bg-[hsl(280,100%,60%)] text-[hsl(0,0%,100%)] shadow-[0_0_20px_hsl(280,100%,60%)]",
-  },
-  gradient: {
-    bg: "bg-gradient-to-br from-[hsl(270,60%,20%)] to-[hsl(300,50%,15%)]", fg: "text-[hsl(0,0%,100%)]",
-    btn: "bg-[hsl(270,50%,35%)]/60 text-[hsl(0,0%,100%)] backdrop-blur", btnHover: "hover:bg-[hsl(300,70%,60%)]",
-    featured: "bg-[hsl(300,70%,60%)] text-[hsl(0,0%,100%)]",
-  },
-  glass: {
-    bg: "bg-gradient-to-br from-[hsl(210,40%,15%)] to-[hsl(220,30%,25%)]", fg: "text-[hsl(0,0%,96%)]",
-    btn: "bg-[hsl(0,0%,100%)]/10 text-[hsl(0,0%,96%)] backdrop-blur-md border border-[hsl(0,0%,100%)]/20", btnHover: "hover:bg-[hsl(0,0%,100%)]/20",
-    featured: "bg-[hsl(210,80%,60%)] text-[hsl(0,0%,100%)]",
-  },
-  sunset: {
-    bg: "bg-gradient-to-br from-[hsl(30,80%,55%)] to-[hsl(350,70%,45%)]", fg: "text-[hsl(0,0%,100%)]",
-    btn: "bg-[hsl(0,0%,100%)]/20 text-[hsl(0,0%,100%)] backdrop-blur", btnHover: "hover:bg-[hsl(0,0%,100%)]/35",
-    featured: "bg-[hsl(0,0%,100%)] text-[hsl(350,70%,45%)]",
-  },
-  nature: {
-    bg: "bg-gradient-to-b from-[hsl(140,30%,15%)] to-[hsl(160,25%,10%)]", fg: "text-[hsl(140,40%,85%)]",
-    btn: "bg-[hsl(140,30%,20%)] text-[hsl(140,40%,85%)]", btnHover: "hover:bg-[hsl(140,60%,55%)] hover:text-[hsl(0,0%,100%)]",
-    featured: "bg-[hsl(140,60%,55%)] text-[hsl(0,0%,100%)]",
-  },
-  glassmorphism: {
-    bg: "bg-gradient-to-br from-[hsl(240,30%,20%)] to-[hsl(280,25%,15%)]", fg: "text-[hsl(0,0%,100%)]",
-    btn: "bg-[hsl(0,0%,100%)]/10 text-[hsl(0,0%,100%)] backdrop-blur-xl border border-[hsl(0,0%,100%)]/15 shadow-lg", btnHover: "hover:bg-[hsl(0,0%,100%)]/20",
-    featured: "bg-[hsl(240,80%,70%)] text-[hsl(0,0%,100%)] shadow-[0_0_24px_hsl(240,80%,70%/0.4)]",
-  },
-  gold: {
-    bg: "bg-[hsl(40,30%,8%)]", fg: "text-[hsl(45,80%,60%)]",
-    btn: "bg-[hsl(45,50%,15%)] text-[hsl(45,80%,60%)] border border-[hsl(45,80%,40%)]/30", btnHover: "hover:bg-[hsl(45,80%,50%)] hover:text-[hsl(40,30%,8%)]",
-    featured: "bg-gradient-to-r from-[hsl(45,80%,50%)] to-[hsl(35,90%,55%)] text-[hsl(40,30%,8%)]",
-  },
-  instagram: {
-    bg: "bg-gradient-to-br from-[hsl(45,100%,55%)] via-[hsl(340,80%,55%)] to-[hsl(280,80%,55%)]", fg: "text-[hsl(0,0%,100%)]",
-    btn: "bg-[hsl(0,0%,100%)]/25 text-[hsl(0,0%,100%)] backdrop-blur-md", btnHover: "hover:bg-[hsl(0,0%,100%)]/40",
-    featured: "bg-[hsl(0,0%,100%)] text-[hsl(340,80%,45%)]",
-  },
-  youtube: {
-    bg: "bg-[hsl(0,0%,7%)]", fg: "text-[hsl(0,0%,96%)]",
-    btn: "bg-[hsl(0,75%,45%)] text-[hsl(0,0%,100%)]", btnHover: "hover:bg-[hsl(0,80%,55%)]",
-    featured: "bg-[hsl(0,0%,100%)] text-[hsl(0,75%,45%)] font-bold",
-  },
-  pastel: {
-    bg: "bg-gradient-to-br from-[hsl(330,50%,92%)] to-[hsl(270,40%,90%)]", fg: "text-[hsl(330,30%,25%)]",
-    btn: "bg-[hsl(330,40%,85%)] text-[hsl(330,30%,25%)]", btnHover: "hover:bg-[hsl(300,50%,55%)] hover:text-[hsl(0,0%,100%)]",
-    featured: "bg-[hsl(300,50%,55%)] text-[hsl(0,0%,100%)]",
-  },
-};
+import { themeStyles } from "@/utils/themes";
 
 const PublicProfile = () => {
   const { username } = useParams<{ username: string }>();
@@ -129,63 +53,97 @@ const PublicProfile = () => {
 
   return (
     <div
-      className={`min-h-screen ${t.bg} ${t.fg} flex justify-center`}
+      className={`min-h-screen ${t.bg} ${t.fg} flex justify-center overflow-x-hidden relative`}
       style={profile.background_image ? {
         backgroundImage: `url(${profile.background_image})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
+        backgroundAttachment: "fixed",
       } : undefined}
     >
-      {profile.background_image && <div className="absolute inset-0 bg-black/40" />}
-      <div className="w-full max-w-md px-6 py-12 relative z-10">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col items-center mb-8">
-          {profile.avatar_url ? (
-            <img src={profile.avatar_url} alt={profile.name || ""} className="w-24 h-24 rounded-full object-cover border-2 border-current/20 mb-4 shadow-lg" />
-          ) : (
-            <div className="w-24 h-24 rounded-full bg-current/10 border-2 border-current/20 flex items-center justify-center text-4xl mb-4">👤</div>
-          )}
-          <h1 className="font-display text-xl font-bold">{profile.name || username}</h1>
-          {profile.bio && <p className="text-sm opacity-70 mt-1 text-center max-w-xs">{profile.bio}</p>}
+      {/* Decorative blurred blobs for gradient themes */}
+      {(!profile.background_image && profile.theme?.includes('gradient')) && (
+        <>
+          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-white/5 blur-[120px] pointer-events-none" />
+          <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-white/5 blur-[120px] pointer-events-none" />
+        </>
+      )}
+
+      {profile.background_image && <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" />}
+      <div className="w-full max-w-[600px] px-6 py-16 relative z-10 flex flex-col min-h-screen">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: "easeOut" }} className="flex flex-col items-center mb-10">
+          
+          {/* Animated Profile Ring */}
+          <div className="relative group mb-6">
+            <div className="absolute -inset-1 bg-gradient-to-r from-primary via-purple-500 to-primary rounded-full blur opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200 animate-pulse-slow"></div>
+            <div className="relative w-28 h-28 rounded-full p-1 bg-gradient-to-tr from-white/20 to-white/5 backdrop-blur-sm border border-white/10 shadow-xl overflow-hidden">
+              {profile.avatar_url ? (
+                <img src={profile.avatar_url} alt={profile.name || ""} className="w-full h-full rounded-full object-cover" />
+              ) : (
+                <div className="w-full h-full rounded-full bg-white/10 flex items-center justify-center text-4xl">👤</div>
+              )}
+            </div>
+          </div>
+
+          <h1 className="font-display text-2xl font-bold tracking-tight">{profile.name || username}</h1>
+          <p className="text-sm font-medium opacity-70 mt-1 mb-3">@{username}</p>
+          {profile.bio && <p className="text-base opacity-80 mt-2 text-center max-w-sm leading-relaxed">{profile.bio}</p>}
         </motion.div>
 
-        {featuredLink && (
-          <motion.button
-            initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
-            onClick={() => handleClick(featuredLink.id, featuredLink.url)}
-            className={`block w-full py-4 px-4 rounded-xl text-center text-sm font-bold transition-all duration-200 cursor-pointer mb-4 shadow-lg ${t.featured}`}
-          >
-            <span className="flex items-center justify-center gap-2">
-              <Star className="h-4 w-4" /> {featuredLink.title} <ExternalLink className="h-3 w-3 opacity-50" />
-            </span>
-          </motion.button>
-        )}
+        <div className="space-y-4 flex-1 w-full max-w-md mx-auto">
+          {featuredLink && (
+            <motion.button
+              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.5 }}
+              onClick={() => handleClick(featuredLink.id, featuredLink.url)}
+              className={`group relative flex w-full items-center justify-center py-4 px-6 rounded-2xl text-center text-[15px] font-semibold transition-all duration-300 cursor-pointer overflow-hidden ${t.featured}`}
+            >
+              <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out"></div>
+              <span className="relative z-10 flex items-center justify-center gap-2">
+                <Star className="h-5 w-5 animate-pulse" /> {featuredLink.title}
+              </span>
+              <div className="absolute right-6 opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 transition-all duration-300">
+                <ExternalLink className="h-4 w-4" />
+              </div>
+            </motion.button>
+          )}
 
-        <div className="space-y-3">
           {regularLinks.map((link, i) => (
             <motion.button
               key={link.id}
-              initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}
+              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 + (i * 0.05), duration: 0.5 }}
               onClick={() => handleClick(link.id, link.url)}
-              className={`block w-full py-3.5 px-4 rounded-xl text-center text-sm font-medium transition-all duration-200 cursor-pointer ${t.btn} ${t.btnHover}`}
+              className={`group relative flex w-full items-center justify-center py-4 px-6 rounded-2xl text-center text-[15px] font-medium transition-all duration-300 cursor-pointer overflow-hidden ${t.btn} ${t.btnHover}`}
             >
-              <span className="flex items-center justify-center gap-2">
-                {link.title} <ExternalLink className="h-3 w-3 opacity-50" />
+              <span className="relative z-10 flex items-center justify-center gap-2">
+                {link.title}
               </span>
+              <div className="absolute right-6 opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 transition-all duration-300">
+                <ExternalLink className="h-4 w-4 opacity-70" />
+              </div>
             </motion.button>
           ))}
         </div>
 
-        <div className="mt-12 text-center">
+        <motion.div 
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }}
+          className="mt-16 text-center pb-8"
+        >
           {showAd && (
-            <div className="mb-4 rounded-lg border border-current/10 bg-current/5 px-4 py-3">
-              <p className="text-xs opacity-50 mb-1">Advertisement</p>
-              <p className="text-sm font-medium opacity-70">Create your own bio page for free</p>
-              <a href="/" className="text-xs underline opacity-80">Get started with clickbio →</a>
+            <div className="mb-8 rounded-2xl border border-current/10 bg-current/5 px-6 py-5 backdrop-blur-sm max-w-sm mx-auto transition-transform hover:scale-[1.02]">
+              <div className="w-10 h-10 mx-auto bg-primary/20 rounded-full flex items-center justify-center mb-3">
+                 <img src="/favicon.png" alt="ClickBio" className="w-5 h-5 opacity-80 object-contain" />
+              </div>
+              <p className="text-sm font-semibold opacity-90 mb-1">Create your own link in bio</p>
+              <p className="text-xs opacity-60 mb-3">Join thousands of creators using ClickBio.</p>
+              <a href="/" className="inline-block px-4 py-2 rounded-full bg-white text-black text-xs font-bold shadow-sm hover:shadow-md transition-shadow">Get started for free</a>
             </div>
           )}
-          <p className="text-xs opacity-40">Powered by clickbio</p>
-        </div>
+          <a href="/" className="inline-flex items-center justify-center gap-2 opacity-50 hover:opacity-100 transition-opacity">
+            <img src="/favicon.png" alt="ClickBio Logo" className="w-4 h-4 opacity-70 object-contain" />
+            <span className={`text-xs font-semibold tracking-widest uppercase ${t.fg}`}>ClickBio</span>
+          </a>
+        </motion.div>
       </div>
     </div>
   );

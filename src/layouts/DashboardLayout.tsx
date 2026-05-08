@@ -8,9 +8,10 @@ import { useProfile } from "@/hooks/useProfile";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import ThemeToggle from "@/components/ThemeToggle";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const DashboardLayout = () => {
-  const { signOut } = useAuth();
+  const { signOut, user } = useAuth();
   const { profile } = useProfile();
   const navigate = useNavigate();
 
@@ -20,6 +21,9 @@ const DashboardLayout = () => {
     navigate("/");
   };
 
+  const userName = user?.user_metadata?.full_name || profile?.username || "User";
+  const avatarUrl = user?.user_metadata?.avatar_url;
+
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-background">
@@ -28,8 +32,8 @@ const DashboardLayout = () => {
           <header className="border-b border-border bg-background/80 backdrop-blur-xl sticky top-0 z-50 h-14 flex items-center px-4 gap-3">
             <SidebarTrigger />
             <Link to="/" className="flex items-center gap-2 font-display font-bold">
-              <Link2 className="h-4 w-4 text-primary" />
-              clickbio
+              <img src="/logo.png" alt="ClickBio Logo" className="h-4 w-4 object-contain" />
+              ClickBio
             </Link>
             <div className="flex-1" />
             <ThemeToggle />
@@ -40,8 +44,17 @@ const DashboardLayout = () => {
                 </Link>
               </Button>
             )}
-            <Button variant="ghost" size="sm" onClick={handleSignOut}>
-              <LogOut className="h-3.5 w-3.5 mr-1" /> Sign Out
+            
+            <div className="flex items-center gap-2 pl-2 border-l border-border ml-2">
+              <Avatar className="h-8 w-8">
+                <AvatarImage src={avatarUrl} alt={userName} />
+                <AvatarFallback>{userName.charAt(0).toUpperCase()}</AvatarFallback>
+              </Avatar>
+              <span className="text-sm font-medium hidden md:inline-block">{userName}</span>
+            </div>
+            
+            <Button variant="ghost" size="sm" onClick={handleSignOut} className="ml-2">
+              <LogOut className="h-3.5 w-3.5" /> <span className="hidden md:inline-block ml-1">Sign Out</span>
             </Button>
           </header>
           <main className="flex-1 p-4 md:p-8 max-w-4xl">
