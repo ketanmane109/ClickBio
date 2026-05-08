@@ -142,7 +142,7 @@ const ResetPassword = () => {
         className="w-full max-w-md"
       >
         <div className="flex items-center justify-center gap-2 mb-8">
-          <img src="/logo.png" alt="ClickBio Logo" className="h-7 w-7 object-contain" />
+          <img src="/logo.svg" alt="ClickBio Logo" className="h-7 w-7 object-contain" />
           <span className="font-display text-2xl font-bold">ClickBio</span>
         </div>
 

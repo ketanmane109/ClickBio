@@ -24,7 +24,7 @@ const Navbar = () => {
     }`}>
       <div className="container flex h-16 items-center justify-between">
         <Link to="/" className="flex items-center gap-2.5 font-display text-xl font-bold tracking-tight group">
-          <img src="/favicon.png" alt="ClickBio Logo" className="h-7 w-7 object-contain transition-transform group-hover:scale-105" />
+          <img src="/logo.svg" alt="ClickBio Logo" className="h-7 w-7 object-contain transition-transform group-hover:scale-105" />
           <span>ClickBio</span>
         </Link>
         <div className="hidden md:flex items-center gap-8">

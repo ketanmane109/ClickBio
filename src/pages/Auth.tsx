@@ -64,7 +64,7 @@ const Auth = () => {
     <div className="min-h-screen bg-background flex items-center justify-center px-4">
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-sm">
         <div className="flex flex-col items-center justify-center gap-3 mb-8">
-          <img src="/favicon.png" alt="ClickBio Logo" className="h-12 w-12 object-contain drop-shadow-md" />
+          <img src="/logo.svg" alt="ClickBio Logo" className="h-12 w-12 object-contain" />
           <span className="font-display text-2xl font-bold tracking-tight">ClickBio</span>
         </div>
 

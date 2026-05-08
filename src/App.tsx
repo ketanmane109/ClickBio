@@ -32,7 +32,7 @@ const Loader = () => (
   <div className="min-h-screen bg-background flex items-center justify-center">
     <div className="relative flex flex-col items-center justify-center gap-4">
       <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full animate-pulse"></div>
-      <img src="/favicon.png" alt="Loading ClickBio..." className="h-12 w-12 object-contain animate-bounce relative z-10" />
+      <img src="/logo.svg" alt="Loading ClickBio..." className="h-12 w-12 object-contain animate-bounce relative z-10" />
     </div>
   </div>
 );

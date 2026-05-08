@@ -132,7 +132,7 @@ const PublicProfile = () => {
           {showAd && (
             <div className="mb-8 rounded-2xl border border-current/10 bg-current/5 px-6 py-5 backdrop-blur-sm max-w-sm mx-auto transition-transform hover:scale-[1.02]">
               <div className="w-10 h-10 mx-auto bg-primary/20 rounded-full flex items-center justify-center mb-3">
-                 <img src="/favicon.png" alt="ClickBio" className="w-5 h-5 opacity-80 object-contain" />
+                 <img src="/logo.svg" alt="ClickBio" className="w-5 h-5 opacity-80 object-contain" />
               </div>
               <p className="text-sm font-semibold opacity-90 mb-1">Create your own link in bio</p>
               <p className="text-xs opacity-60 mb-3">Join thousands of creators using ClickBio.</p>
@@ -140,7 +140,7 @@ const PublicProfile = () => {
             </div>
           )}
           <a href="/" className="inline-flex items-center justify-center gap-2 opacity-50 hover:opacity-100 transition-opacity">
-            <img src="/favicon.png" alt="ClickBio Logo" className="w-4 h-4 opacity-70 object-contain" />
+            <img src="/logo.svg" alt="ClickBio Logo" className="w-4 h-4 opacity-70 object-contain" />
             <span className={`text-xs font-semibold tracking-widest uppercase ${t.fg}`}>ClickBio</span>
           </a>
         </motion.div>

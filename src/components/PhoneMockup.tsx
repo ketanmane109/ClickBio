@@ -14,7 +14,7 @@ const PhoneMockup = () => {
           
           {/* Profile Section */}
           <div className="relative z-10 w-20 h-20 rounded-full bg-gradient-to-tr from-primary/20 to-primary/5 border border-primary/20 mb-4 flex items-center justify-center shadow-lg shadow-primary/5 overflow-hidden">
-            <img src="/favicon.png" alt="ClickBio" className="w-10 h-10 object-contain opacity-80" />
+            <img src="/logo.svg" alt="ClickBio" className="w-10 h-10 object-contain opacity-80" />
           </div>
           
           <h3 className="font-display font-semibold text-base mb-1 tracking-tight">@ClickBio</h3>

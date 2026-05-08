@@ -7,7 +7,7 @@ const Footer = () => {
       <div className="container grid gap-8 md:grid-cols-4 lg:grid-cols-5">
         <div className="lg:col-span-2">
           <Link to="/" className="flex items-center gap-2 font-display font-bold mb-4">
-            <img src="/logo.png" alt="ClickBio Logo" className="h-6 w-6 object-contain" />
+            <img src="/logo.svg" alt="ClickBio Logo" className="h-6 w-6 object-contain" />
             <span className="text-xl">ClickBio</span>
           </Link>
           <p className="text-sm text-muted-foreground mb-6 max-w-xs">

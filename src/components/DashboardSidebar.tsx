@@ -28,7 +28,7 @@ export function DashboardSidebar() {
   return (
     <Sidebar collapsible="icon">
       <div className="p-4 flex items-center gap-3">
-        <img src="/favicon.png" alt="ClickBio Logo" className="h-8 w-8 object-contain shrink-0" />
+        <img src="/logo.svg" alt="ClickBio Logo" className="h-8 w-8 object-contain shrink-0" />
         {!collapsed && <span className="font-display text-xl font-bold tracking-tight">ClickBio</span>}
       </div>
       <SidebarContent>

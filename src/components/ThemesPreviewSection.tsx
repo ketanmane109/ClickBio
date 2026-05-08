@@ -25,7 +25,7 @@ const ThemePreviewCard = ({ id, name }: { id: string, name: string }) => {
           
           {/* Profile Image */}
           <div className={`relative z-10 w-16 h-16 rounded-full bg-current/10 border-2 border-current/20 mb-3 mt-2 flex items-center justify-center shadow-lg overflow-hidden ${styles.fg}`}>
-            <img src="/favicon.png" alt="ClickBio" className="w-8 h-8 object-contain" />
+            <img src="/logo.svg" alt="ClickBio" className="w-8 h-8 object-contain" />
           </div>
           
           <h3 className={`font-display font-bold text-sm mb-1 z-10 ${styles.fg}`}>@ClickBio</h3>

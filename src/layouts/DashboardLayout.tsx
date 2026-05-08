@@ -32,7 +32,7 @@ const DashboardLayout = () => {
           <header className="border-b border-border bg-background/80 backdrop-blur-xl sticky top-0 z-50 h-14 flex items-center px-4 gap-3">
             <SidebarTrigger />
             <Link to="/" className="flex items-center gap-2 font-display font-bold">
-              <img src="/logo.png" alt="ClickBio Logo" className="h-4 w-4 object-contain" />
+              <img src="/logo.svg" alt="ClickBio Logo" className="h-4 w-4 object-contain" />
               ClickBio
             </Link>
             <div className="flex-1" />

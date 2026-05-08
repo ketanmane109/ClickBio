@@ -224,7 +224,7 @@ const ThemesPage = () => {
                     ))}
                   </div>
                   <div className="mt-auto pt-8 pb-2 flex items-center justify-center gap-2">
-                    <img src="/favicon.png" alt="logo" className="w-3 h-3 opacity-50 grayscale" />
+                    <img src="/logo.svg" alt="logo" className="w-3 h-3 opacity-50 grayscale" />
                     <p className={`text-[10px] font-semibold uppercase tracking-widest opacity-50 ${themeStyles[previewTheme.id]?.fg}`}>ClickBio</p>
                   </div>
                 </div>
