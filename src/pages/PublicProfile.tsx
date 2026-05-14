@@ -40,20 +40,51 @@ const PublicProfile = () => {
   }, [username]);
 
   const handleClick = async (linkId: string, url: string) => {
-    await supabase.rpc("record_click", { p_link_id: linkId, p_referrer: document.referrer || "" });
+    const getDevice = () => {
+      const ua = navigator.userAgent;
+      if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) return 'Tablet';
+      if (/Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/i.test(ua)) return 'Mobile';
+      return 'Desktop';
+    };
+    const deviceStr = getDevice();
+    const finalReferrer = `${document.referrer || ""}||device:${deviceStr}`;
+    
+    await supabase.rpc("record_click", { p_link_id: linkId, p_referrer: finalReferrer });
     window.open(url, "_blank", "noopener");
   };
 
   if (loading) return <div className="min-h-screen bg-background flex items-center justify-center"><div className="animate-spin h-8 w-8 border-2 border-primary border-t-transparent rounded-full" /></div>;
   if (notFound || !profile) return <div className="min-h-screen bg-background flex items-center justify-center text-muted-foreground"><p>Profile not found</p></div>;
 
-  const t = themeStyles[profile.theme || "dark"] || themeStyles.dark;
+  // ROCK-SOLID THEME FALLBACK SYSTEM: Guarantee a valid theme object exists
+  const getSafeTheme = () => {
+    const defaultTheme = {
+      bg: "bg-white",
+      fg: "text-zinc-900",
+      btn: "bg-white text-zinc-900 border border-zinc-200 shadow-sm",
+      btnHover: "hover:bg-zinc-50 hover:border-zinc-300 hover:shadow-md hover:scale-[1.02]",
+      featured: "bg-zinc-900 text-white shadow-md hover:bg-black hover:shadow-lg hover:scale-[1.02]",
+    };
+    
+    // Defensive loading with explicit fallbacks
+    const selectedTheme =
+      themeStyles?.[profile?.theme || ""] ??
+      themeStyles?.["minimal-light"] ??
+      themeStyles?.["minimal-white"] ??
+      themeStyles?.["light"] ??
+      defaultTheme;
+      
+    return selectedTheme;
+  };
+  
+  const t = getSafeTheme();
+  
   const featuredLink = links.find((l) => l.featured);
   const regularLinks = links.filter((l) => !l.featured);
 
   return (
     <div
-      className={`min-h-screen ${t.bg} ${t.fg} flex justify-center overflow-x-hidden relative`}
+      className={`min-h-screen ${t?.bg || ""} ${t?.fg || ""} flex justify-center overflow-x-hidden relative`}
       style={profile.background_image ? {
         backgroundImage: `url(${profile.background_image})`,
         backgroundSize: "cover",
@@ -96,7 +127,7 @@ const PublicProfile = () => {
             <motion.button
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.5 }}
               onClick={() => handleClick(featuredLink.id, featuredLink.url)}
-              className={`group relative flex w-full items-center justify-center py-4 px-6 rounded-2xl text-center text-[15px] font-semibold transition-all duration-300 cursor-pointer overflow-hidden ${t.featured}`}
+              className={`group relative flex w-full items-center justify-center py-4 px-6 rounded-2xl text-center text-[15px] font-semibold transition-all duration-300 cursor-pointer overflow-hidden ${t?.featured || ""}`}
             >
               <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out"></div>
               <span className="relative z-10 flex items-center justify-center gap-2">
@@ -113,7 +144,7 @@ const PublicProfile = () => {
               key={link.id}
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 + (i * 0.05), duration: 0.5 }}
               onClick={() => handleClick(link.id, link.url)}
-              className={`group relative flex w-full items-center justify-center py-4 px-6 rounded-2xl text-center text-[15px] font-medium transition-all duration-300 cursor-pointer overflow-hidden ${t.btn} ${t.btnHover}`}
+              className={`group relative flex w-full items-center justify-center py-4 px-6 rounded-2xl text-center text-[15px] font-medium transition-all duration-300 cursor-pointer overflow-hidden ${t?.btn || ""} ${t?.btnHover || ""}`}
             >
               <span className="relative z-10 flex items-center justify-center gap-2">
                 {link.title}
@@ -141,7 +172,7 @@ const PublicProfile = () => {
           )}
           <a href="/" className="inline-flex items-center justify-center gap-2 opacity-50 hover:opacity-100 transition-opacity">
             <img src="/logo.svg" alt="ClickBio Logo" className="w-4 h-4 opacity-70 object-contain" />
-            <span className={`text-xs font-semibold tracking-widest uppercase ${t.fg}`}>ClickBio</span>
+            <span className={`text-xs font-semibold tracking-widest uppercase ${t?.fg || ""}`}>ClickBio</span>
           </a>
         </motion.div>
       </div>

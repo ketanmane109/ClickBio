@@ -25,7 +25,7 @@ const DashboardHome = () => {
   if (profile?.bio) completionScore += 20;
   if (links.length > 0) completionScore += 20;
 
-  const profileUrl = profile?.username ? `https://clickbio.in/${profile.username}` : "";
+  const profileUrl = profile?.username ? `${window.location.origin}/${profile.username}` : "";
 
   const copyLink = () => {
     if (!profileUrl) return;
@@ -48,7 +48,7 @@ const DashboardHome = () => {
         
         {profileUrl && (
           <div className="flex items-center gap-2 bg-muted/50 p-1.5 rounded-xl border border-border/50">
-            <span className="text-sm text-muted-foreground pl-3 truncate max-w-[200px]">{profileUrl.replace('https://', '')}</span>
+            <span className="text-sm text-muted-foreground pl-3 truncate max-w-[200px]">{profileUrl.split('://')[1]}</span>
             <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-background shadow-sm rounded-lg" onClick={copyLink}>
               {copied ? <Check className="h-4 w-4 text-emerald-500" /> : <Copy className="h-4 w-4" />}
             </Button>
@@ -134,31 +134,62 @@ const DashboardHome = () => {
           </div>
         </div>
 
-        {/* Recent Performance */}
-        <div className="space-y-4">
-          <h2 className="text-xl font-display font-bold flex items-center gap-2">Top Links</h2>
-          <div className="rounded-2xl border border-border/50 bg-card p-5">
-            {topLinks.length > 0 ? (
-              <div className="space-y-4">
-                {topLinks.map((link, i) => (
-                  <div key={link.id} className="flex items-center justify-between gap-3 border-b border-border/40 last:border-0 pb-3 last:pb-0">
-                    <div className="flex-1 min-w-0">
-                      <p className="font-medium text-sm truncate text-foreground">{link.title}</p>
-                      <p className="text-xs text-muted-foreground truncate">{link.url}</p>
+        {/* Recent Performance & Onboarding Tips */}
+        <div className="space-y-6">
+          <div className="space-y-4">
+            <h2 className="text-xl font-display font-bold flex items-center gap-2">Top Links</h2>
+            <div className="rounded-2xl border border-border/50 bg-card p-5">
+              {topLinks.length > 0 ? (
+                <div className="space-y-4">
+                  {topLinks.map((link, i) => (
+                    <div key={link.id} className="flex items-center justify-between gap-3 border-b border-border/40 last:border-0 pb-3 last:pb-0">
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium text-sm truncate text-foreground">{link.title}</p>
+                        <p className="text-xs text-muted-foreground truncate">{link.url}</p>
+                      </div>
+                      <div className="bg-primary/5 text-primary px-2.5 py-1 rounded-lg text-xs font-bold border border-primary/10">
+                        {link.clicks || 0}
+                      </div>
                     </div>
-                    <div className="bg-primary/5 text-primary px-2.5 py-1 rounded-lg text-xs font-bold border border-primary/10">
-                      {link.clicks || 0}
-                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-8 text-muted-foreground">
+                  <Link2 className="h-8 w-8 mx-auto mb-2 opacity-20" />
+                  <p className="text-sm">No link data yet.</p>
+                  <Link to="/dashboard/bio" className="text-primary text-sm hover:underline mt-1 block">Add your first link</Link>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <h2 className="text-xl font-display font-bold flex items-center gap-2">Creator Tips</h2>
+            <div className="rounded-2xl border border-border/50 bg-gradient-to-br from-primary/5 via-transparent to-transparent p-5 space-y-4">
+              <div className="space-y-3.5">
+                <div className="flex items-start gap-3">
+                  <span className="p-1 rounded-md bg-primary/10 text-primary text-xs font-bold mt-0.5">1</span>
+                  <div>
+                    <p className="text-sm font-semibold text-foreground">Add a Bio Description</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">Keep it to 1 sentence describing what you offer or do.</p>
                   </div>
-                ))}
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="p-1 rounded-md bg-primary/10 text-primary text-xs font-bold mt-0.5">2</span>
+                  <div>
+                    <p className="text-sm font-semibold text-foreground font-display">Activate Frost Glass Theme</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">Use state-of-the-art glassmorphism style for high engagement.</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="p-1 rounded-md bg-primary/10 text-primary text-xs font-bold mt-0.5">3</span>
+                  <div>
+                    <p className="text-sm font-semibold text-foreground">Pin Your Best Content</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">Pin/feature your newsletter or top YouTube video at the top.</p>
+                  </div>
+                </div>
               </div>
-            ) : (
-              <div className="text-center py-8 text-muted-foreground">
-                <Link2 className="h-8 w-8 mx-auto mb-2 opacity-20" />
-                <p className="text-sm">No link data yet.</p>
-                <Link to="/dashboard/bio" className="text-primary text-sm hover:underline mt-1 block">Add your first link</Link>
-              </div>
-            )}
+            </div>
           </div>
         </div>
       </div>

@@ -69,7 +69,12 @@ CREATE TABLE public.subscriptions (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id uuid NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
   plan text DEFAULT 'free',
+  plan_type text DEFAULT 'free',
   status text DEFAULT 'active',
+  billing_cycle text DEFAULT 'monthly',
+  subscribed_at timestamptz DEFAULT now(),
+  expires_at timestamptz,
+  is_active boolean DEFAULT true,
   created_at timestamptz DEFAULT now(),
   updated_at timestamptz DEFAULT now()
 );

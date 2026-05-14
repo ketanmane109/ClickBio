@@ -134,6 +134,11 @@ export type Database = {
           status: string
           updated_at: string
           user_id: string
+          plan_type: string | null
+          billing_cycle: string | null
+          subscribed_at: string | null
+          expires_at: string | null
+          is_active: boolean | null
         }
         Insert: {
           created_at?: string
@@ -142,6 +147,11 @@ export type Database = {
           status?: string
           updated_at?: string
           user_id: string
+          plan_type?: string | null
+          billing_cycle?: string | null
+          subscribed_at?: string | null
+          expires_at?: string | null
+          is_active?: boolean | null
         }
         Update: {
           created_at?: string
@@ -150,6 +160,11 @@ export type Database = {
           status?: string
           updated_at?: string
           user_id?: string
+          plan_type?: string | null
+          billing_cycle?: string | null
+          subscribed_at?: string | null
+          expires_at?: string | null
+          is_active?: boolean | null
         }
         Relationships: []
       }

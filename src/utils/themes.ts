@@ -1,4 +1,11 @@
 export const themeStyles: Record<string, { bg: string; fg: string; btn: string; btnHover: string; featured: string }> = {
+  "minimal-light": {
+    bg: "bg-white",
+    fg: "text-zinc-900",
+    btn: "bg-white text-zinc-900 border border-zinc-200 shadow-sm",
+    btnHover: "hover:bg-zinc-50 hover:border-zinc-300 hover:shadow-md hover:scale-[1.02]",
+    featured: "bg-zinc-900 text-white shadow-md hover:bg-black hover:shadow-lg hover:scale-[1.02]",
+  },
   "minimal-white": {
     bg: "bg-white",
     fg: "text-zinc-900",
@@ -210,28 +217,28 @@ export const themeStyles: Record<string, { bg: string; fg: string; btn: string; 
     featured: "bg-[#9370DB] text-white shadow-md hover:bg-[#8A2BE2] hover:scale-[1.02]",
   },
   "frost-glass": {
-    bg: "bg-[url('https://images.unsplash.com/photo-1551008475-4533d141425b?q=80&w=2564&auto=format&fit=crop')] bg-cover bg-center before:absolute before:inset-0 before:bg-slate-900/50 before:backdrop-blur-xl",
+    bg: "bg-[url('https://images.unsplash.com/photo-1551008475-4533d141425b?q=80&w=2564&auto=format&fit=crop')] bg-cover bg-center before:content-[''] before:absolute before:inset-0 before:bg-slate-900/50 before:backdrop-blur-xl",
     fg: "text-slate-50",
     btn: "bg-white/10 text-slate-50 backdrop-blur-md border border-white/20 shadow-lg",
     btnHover: "hover:bg-white/20 hover:border-white/30 hover:scale-[1.02]",
     featured: "bg-white/25 text-white backdrop-blur-xl border border-white/40 shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:bg-white/35 hover:scale-[1.02]",
   },
   "crystal-blur": {
-    bg: "bg-[url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop')] bg-cover bg-center before:absolute before:inset-0 before:bg-black/50 before:backdrop-blur-2xl",
+    bg: "bg-[url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop')] bg-cover bg-center before:content-[''] before:absolute before:inset-0 before:bg-black/50 before:backdrop-blur-2xl",
     fg: "text-white",
     btn: "bg-white/10 text-white backdrop-blur-xl border border-white/20 shadow-xl",
     btnHover: "hover:bg-white/20 hover:border-white/30 hover:scale-[1.02]",
     featured: "bg-white/30 text-white backdrop-blur-2xl border border-white/50 shadow-[0_0_25px_rgba(255,255,255,0.3)] hover:bg-white/40 hover:scale-[1.02]",
   },
   "aurora-glass": {
-    bg: "bg-[url('https://images.unsplash.com/photo-1531366936337-7759a6857f35?q=80&w=2564&auto=format&fit=crop')] bg-cover bg-center before:absolute before:inset-0 before:bg-black/60 before:backdrop-blur-xl",
+    bg: "bg-[url('https://images.unsplash.com/photo-1531366936337-7759a6857f35?q=80&w=2564&auto=format&fit=crop')] bg-cover bg-center before:content-[''] before:absolute before:inset-0 before:bg-black/60 before:backdrop-blur-xl",
     fg: "text-emerald-50",
     btn: "bg-emerald-900/30 text-emerald-50 backdrop-blur-md border border-emerald-500/20 shadow-lg",
     btnHover: "hover:bg-emerald-800/40 hover:border-emerald-400/40 hover:scale-[1.02]",
     featured: "bg-emerald-500/80 text-white backdrop-blur-md shadow-[0_0_25px_rgba(16,185,129,0.4)] hover:bg-emerald-400/90 hover:scale-[1.02]",
   },
   "liquid-glass": {
-    bg: "bg-[url('https://images.unsplash.com/photo-1550684376-efcbd6e3f031?q=80&w=2564&auto=format&fit=crop')] bg-cover bg-center before:absolute before:inset-0 before:bg-black/60 before:backdrop-blur-xl",
+    bg: "bg-[url('https://images.unsplash.com/photo-1550684376-efcbd6e3f031?q=80&w=2564&auto=format&fit=crop')] bg-cover bg-center before:content-[''] before:absolute before:inset-0 before:bg-black/60 before:backdrop-blur-xl",
     fg: "text-blue-50",
     btn: "bg-blue-900/30 text-blue-50 backdrop-blur-md border border-blue-500/20 shadow-lg",
     btnHover: "hover:bg-blue-800/40 hover:border-blue-400/40 hover:scale-[1.02]",
@@ -348,6 +355,51 @@ export const themeStyles: Record<string, { bg: string; fg: string; btn: string; 
     btn: "bg-white/40 text-[#4A0E0E] backdrop-blur-sm border border-white/50 shadow-sm",
     btnHover: "hover:bg-white/60 hover:border-white/80 hover:shadow-md hover:scale-[1.02]",
     featured: "bg-[#CD5C5C] text-white shadow-[0_0_15px_rgba(205,92,92,0.4)] hover:bg-[#BC4A4A] hover:scale-[1.02]",
+  },
+
+  // Add Explicit Legacy/System Fallbacks
+  "dark": {
+    bg: "bg-[#0f172a]",
+    fg: "text-white",
+    btn: "bg-slate-800 text-white border border-slate-700 shadow-sm",
+    btnHover: "hover:bg-slate-700 hover:border-slate-600 hover:scale-[1.02]",
+    featured: "bg-white text-slate-900 shadow-lg hover:bg-slate-100 hover:scale-[1.02]",
+  },
+
+  // Add Explicit Legacy/System Fallbacks
+  "light": {
+    bg: "bg-white",
+    fg: "text-zinc-900",
+    btn: "bg-white text-zinc-900 border border-zinc-200 shadow-sm",
+    btnHover: "hover:bg-zinc-50 hover:border-zinc-300 hover:shadow-md hover:scale-[1.02]",
+    featured: "bg-zinc-900 text-white shadow-md hover:bg-black hover:shadow-lg hover:scale-[1.02]",
+  },
+
+  // Add Explicit Legacy/System Fallbacks
+  "minimal": {
+    bg: "bg-white",
+    fg: "text-zinc-900",
+    btn: "bg-white text-zinc-900 border border-zinc-200 shadow-sm",
+    btnHover: "hover:bg-zinc-50 hover:border-zinc-300 hover:shadow-md hover:scale-[1.02]",
+    featured: "bg-zinc-900 text-white shadow-md hover:bg-black hover:shadow-lg hover:scale-[1.02]",
+  },
+
+  // Add Explicit Legacy/System Fallbacks
+  "gradient": {
+    bg: "bg-gradient-to-br from-rose-100 to-teal-50",
+    fg: "text-rose-950",
+    btn: "bg-white/60 text-rose-900 backdrop-blur-sm border border-white/80 shadow-sm",
+    btnHover: "hover:bg-white/80 hover:border-white hover:shadow-md hover:scale-[1.02]",
+    featured: "bg-rose-500 text-white shadow-md hover:bg-rose-600 hover:shadow-lg hover:scale-[1.02]",
+  },
+
+  // Add Explicit Legacy/System Fallbacks
+  "glass": {
+    bg: "bg-gradient-to-tr from-indigo-100 via-purple-50 to-teal-50",
+    fg: "text-indigo-950",
+    btn: "bg-white/40 text-indigo-900 backdrop-blur-md border border-white/60 shadow-sm",
+    btnHover: "hover:bg-white/60 hover:border-white/80 hover:shadow-md hover:scale-[1.02]",
+    featured: "bg-indigo-600/90 text-white backdrop-blur-md hover:bg-indigo-600 hover:shadow-lg hover:scale-[1.02]",
   },
 };
 

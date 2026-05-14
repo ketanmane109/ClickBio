@@ -18,7 +18,7 @@ const About = () => {
       </ul>
 
       <h2>Get in Touch</h2>
-      <p>We love hearing from our users! Whether you have a feature request, need support, or just want to say hi, feel free to reach out to us at support@clickbio.in.</p>
+      <p>We love hearing from our users! Whether you have a feature request, need support, or just want to say hi, feel free to reach out to us at clickbio@gmail.com.</p>
     </LegalLayout>
   );
 };

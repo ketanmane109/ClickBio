@@ -8,7 +8,7 @@ const Refund = () => {
 
       <h2>2. Refund Eligibility</h2>
       <p>We offer a 7-day money-back guarantee for all new subscriptions. If you are not satisfied with ClickBio Pro or Standard within the first 7 days of your initial purchase, you are eligible for a full refund.</p>
-      <p>To request a refund, please contact our support team at support@clickbio.in with your account details and the reason for your request.</p>
+      <p>To request a refund, please contact our support team at clickbio@gmail.com with your account details and the reason for your request.</p>
 
       <h2>3. Exceptions</h2>
       <p>Refunds will not be provided for:</p>

@@ -42,7 +42,7 @@ const PrivacyPolicy = () => {
       <p>Third party vendors, including Google, use cookies to serve ads based on a user's prior visits to your website or other websites. Google's use of advertising cookies enables it and its partners to serve ads to your users based on their visit to your sites and/or other sites on the Internet.</p>
 
       <h2>7. Contact Us</h2>
-      <p>If you have any questions about this privacy policy or our privacy practices, please contact us at support@clickbio.in.</p>
+      <p>If you have any questions about this privacy policy or our privacy practices, please contact us at clickbio@gmail.com.</p>
     </LegalLayout>
   );
 };

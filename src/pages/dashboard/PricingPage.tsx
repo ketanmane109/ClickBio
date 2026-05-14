@@ -132,9 +132,19 @@ const PricingPage = () => {
       handler: async (response: RazorpayResponse) => {
         // Update subscription in database
         if (subscription) {
+          const nowStr = new Date().toISOString();
+          const expiresStr = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(); // 30 days
           await supabase
             .from("subscriptions")
-            .update({ plan: targetPlan, status: "active" })
+            .update({ 
+              plan: targetPlan, 
+              status: "active",
+              plan_type: targetPlan,
+              billing_cycle: "monthly",
+              subscribed_at: nowStr,
+              expires_at: expiresStr,
+              is_active: true
+            })
             .eq("user_id", user?.id);
         }
         navigate("/payment-success?plan=" + targetPlan);

@@ -15,32 +15,34 @@ const SettingsPage = () => {
   const auth = useAuth();
   const { user, signOut } = auth;
   const { profile, updateProfile, loading: profileLoading } = useProfile();
-  const { plan } = useSubscription();
+  const { plan, expiryDate, daysRemaining, isExpired, billingCycle, subscribedAt } = useSubscription();
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [saving, setSaving] = useState(false);
 
-
+  // ── ALL hooks must be declared before any early return ──────────────────────
   const usernameMemo = useMemo(() => profile?.username || "", [profile]);
   useEffect(() => {
     setUsername(usernameMemo);
   }, [usernameMemo]);
 
-  if (profileLoading || !user) return (
-    <div className="flex items-center justify-center min-h-[400px] p-8">
-      <motion.div 
-        animate={{ rotate: 360 }}
-        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-        className="h-8 w-8 border-2 border-primary border-t-transparent rounded-full mr-3"
-      />
-      <div>
-        <h2 className="text-xl font-semibold mb-2">Loading settings...</h2>
-        <p className="text-muted-foreground">Please wait while we load your profile.</p>
-      </div>
-    </div>
-  );
+  // Derived display values (no hooks – plain expressions, safe after all hooks)
+  const planLabel = plan === "pro" ? "Pro Plan" : plan === "basic" ? "Standard Plan" : "Free Plan";
+  const billingCycleLabel = plan === "free"
+    ? "Forever Free"
+    : billingCycle === "yearly"
+    ? "Yearly Subscription"
+    : "Monthly Subscription";
 
+  const formattedSubscribedDate = subscribedAt && plan !== "free"
+    ? new Date(subscribedAt).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })
+    : "N/A";
 
+  const formattedExpiryDate = expiryDate && plan !== "free"
+    ? new Date(expiryDate).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })
+    : "Never";
+
+  // ── Handler functions ───────────────────────────────────────────────────────
   const saveUsername = async () => {
     if (!username.trim()) return toast.error("Username cannot be empty");
     if (!profile) return toast.error("Profile not loaded");
@@ -73,9 +75,20 @@ const SettingsPage = () => {
     navigate("/");
   };
 
-  const planLabel = plan === "pro" ? "Pro Plan" : plan === "basic" ? "Standard Plan" : "Free Plan";
-  const billingCycle = plan === "free" ? "Forever Free" : "Monthly";
-  const expiryDate = plan === "free" ? "Never" : "Oct 15, 2026"; // Mock date for now
+  // ── Early return AFTER all hooks ────────────────────────────────────────────
+  if (profileLoading || !user) return (
+    <div className="flex items-center justify-center min-h-[400px] p-8">
+      <motion.div
+        animate={{ rotate: 360 }}
+        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+        className="h-8 w-8 border-2 border-primary border-t-transparent rounded-full mr-3"
+      />
+      <div>
+        <h2 className="text-xl font-semibold mb-2">Loading settings...</h2>
+        <p className="text-muted-foreground">Please wait while we load your profile.</p>
+      </div>
+    </div>
+  );
 
   return (
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="max-w-4xl mx-auto space-y-10 pb-12">
@@ -105,11 +118,11 @@ const SettingsPage = () => {
               <div className="flex flex-col sm:flex-row gap-4">
                 <div className="flex-1 flex rounded-lg shadow-sm border border-input bg-background focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary transition-all overflow-hidden">
                   <span className="inline-flex items-center px-4 border-r border-input bg-muted/50 text-muted-foreground text-sm font-medium">
-                    clickbio.in/
+                    {window.location.host}/
                   </span>
-                  <Input 
-                    value={username} 
-                    onChange={(e) => setUsername(e.target.value)} 
+                  <Input
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
                     className="border-0 focus-visible:ring-0 rounded-none bg-transparent h-11"
                   />
                 </div>
@@ -138,19 +151,41 @@ const SettingsPage = () => {
           </div>
           <div className="p-6 md:p-8 relative z-10">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 p-6 rounded-2xl bg-background/50 border border-border/50 shadow-sm backdrop-blur-sm">
-              <div className="space-y-2">
-                <div className="flex items-center gap-3 mb-2">
-                  <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest ${
-                    plan === 'pro' ? 'bg-primary/20 text-primary border border-primary/20' : 
-                    plan === 'basic' ? 'bg-blue-500/20 text-blue-500 border border-blue-500/20' : 
-                    'bg-muted text-muted-foreground border border-border'
-                  }`}>
+              <div className="space-y-4 w-full md:max-w-xl">
+                <div className="flex items-center gap-3">
+                  <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest ${plan === 'pro' ? 'bg-primary/20 text-primary border border-primary/20 animate-pulse' :
+                      plan === 'basic' ? 'bg-blue-500/20 text-blue-500 border border-blue-500/20' :
+                        'bg-muted text-muted-foreground border border-border'
+                    }`}>
                     {planLabel}
                   </span>
-                  <span className="text-sm font-medium text-muted-foreground uppercase tracking-wider">• {billingCycle}</span>
+                  <span className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">{billingCycleLabel}</span>
                 </div>
-                <p className="text-muted-foreground">
-                  Your plan renews on <span className="font-semibold text-foreground">{expiryDate}</span>
+                
+                {plan !== "free" && (
+                  <div className="grid grid-cols-2 gap-4 pt-2 border-t border-border/40 text-sm">
+                    <div>
+                      <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Purchased</p>
+                      <p className="font-medium text-foreground mt-0.5">{formattedSubscribedDate}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Expires</p>
+                      <p className="font-medium text-foreground mt-0.5">{formattedExpiryDate}</p>
+                    </div>
+                  </div>
+                )}
+                
+                <p className="text-sm text-muted-foreground pt-1">
+                  {plan === "free" ? (
+                    <span>Your plan is active and free forever.</span>
+                  ) : isExpired ? (
+                    <span className="text-destructive font-semibold">Your premium plan has expired. Please renew.</span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1.5 text-primary font-semibold">
+                      <span className="w-2 h-2 rounded-full bg-primary animate-ping" />
+                      {daysRemaining} days remaining
+                    </span>
+                  )}
                 </p>
               </div>
               <Button asChild variant={plan === 'free' ? 'default' : 'outline'} size="lg" className={plan === 'free' ? 'glow font-medium' : 'font-medium bg-background'}>

@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import type { Tables } from "@/integrations/supabase/types";
+import { themeStyles } from "@/utils/themes";
 
 const getErrorMessage = (err: unknown): string =>
   err instanceof Error ? err.message : typeof err === "string" ? err : "An unexpected error occurred";
@@ -64,6 +65,17 @@ export function useProfile() {
         setLinks([]);
       } else {
         setProfile(data);
+        
+        // AUTO-MIGRATE LEGACY/INVALID THEMES
+        if (data.theme && !themeStyles[data.theme]) {
+          console.log(`Migrating invalid theme "${data.theme}" to "minimal-light"`);
+          // Fire-and-forget local state correction and remote DB fix
+          supabase.from("profiles").update({ theme: "minimal-light" }).eq("id", data.id).then(({ error }) => {
+            if (!error) {
+              setProfile(prev => prev ? { ...prev, theme: "minimal-light" } : prev);
+            }
+          });
+        }
         
         // Fetch links
         const { data: linksData, error: linksError } = await supabase

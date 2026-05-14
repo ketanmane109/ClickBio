@@ -292,31 +292,37 @@ const AnalyticsPage = () => {
             </CardHeader>
             <CardContent className="pt-6">
               {isPro ? (
-                <div className="h-[220px]">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                      <Pie 
-                        data={analytics.devices} 
-                        dataKey="clicks" 
-                        nameKey="device" 
-                        cx="50%" 
-                        cy="50%" 
-                        innerRadius={65} 
-                        outerRadius={85} 
-                        paddingAngle={6}
-                        cornerRadius={6}
-                      >
-                        {analytics.devices.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                        ))}
-                      </Pie>
-                      <Tooltip 
-                        contentStyle={{ borderRadius: '12px', border: '1px solid hsl(var(--border))', background: 'hsl(var(--card))', fontWeight: 600 }} 
-                        itemStyle={{ color: 'hsl(var(--foreground))' }}
-                      />
-                    </PieChart>
-                  </ResponsiveContainer>
-                </div>
+                analytics.devices.length > 0 ? (
+                  <div className="h-[220px]">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie 
+                          data={analytics.devices} 
+                          dataKey="clicks" 
+                          nameKey="device" 
+                          cx="50%" 
+                          cy="50%" 
+                          innerRadius={65} 
+                          outerRadius={85} 
+                          paddingAngle={6}
+                          cornerRadius={6}
+                        >
+                          {analytics.devices.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                          ))}
+                        </Pie>
+                        <Tooltip 
+                          contentStyle={{ borderRadius: '12px', border: '1px solid hsl(var(--border))', background: 'hsl(var(--card))', fontWeight: 600 }} 
+                          itemStyle={{ color: 'hsl(var(--foreground))' }}
+                        />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
+                ) : (
+                  <div className="h-[220px] flex items-center justify-center text-center text-muted-foreground bg-muted/5 rounded-xl border border-dashed border-border/50 font-medium p-4">
+                    No audience insights available yet
+                  </div>
+                )
               ) : (
                 <div className="h-[220px] flex items-center justify-center flex-col gap-3 text-muted-foreground bg-muted/10 rounded-xl border border-dashed border-border/50">
                   <div className="p-3 bg-background rounded-full border border-border shadow-sm">
@@ -385,31 +391,37 @@ const AnalyticsPage = () => {
             </CardHeader>
             <CardContent className="pt-6">
               {isPro ? (
-                <div className="h-[220px]">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                      <Pie 
-                        data={analytics.trafficSources} 
-                        dataKey="percentage" 
-                        nameKey="source" 
-                        cx="50%" 
-                        cy="50%" 
-                        innerRadius={50} 
-                        outerRadius={85}
-                        paddingAngle={4}
-                        cornerRadius={4}
-                      >
-                        {analytics.trafficSources.map((entry, index) => (
-                          <Cell key={`source-${index}`} fill={COLORS[(index + 2) % COLORS.length]} />
-                        ))}
-                      </Pie>
-                      <Tooltip 
-                        contentStyle={{ borderRadius: '12px', border: '1px solid hsl(var(--border))', background: 'hsl(var(--card))', fontWeight: 600 }} 
-                        itemStyle={{ color: 'hsl(var(--foreground))' }}
-                      />
-                    </PieChart>
-                  </ResponsiveContainer>
-                </div>
+                analytics.trafficSources.length > 0 ? (
+                  <div className="h-[220px]">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie 
+                          data={analytics.trafficSources} 
+                          dataKey="percentage" 
+                          nameKey="source" 
+                          cx="50%" 
+                          cy="50%" 
+                          innerRadius={50} 
+                          outerRadius={85}
+                          paddingAngle={4}
+                          cornerRadius={4}
+                        >
+                          {analytics.trafficSources.map((entry, index) => (
+                            <Cell key={`source-${index}`} fill={COLORS[(index + 2) % COLORS.length]} />
+                          ))}
+                        </Pie>
+                        <Tooltip 
+                          contentStyle={{ borderRadius: '12px', border: '1px solid hsl(var(--border))', background: 'hsl(var(--card))', fontWeight: 600 }} 
+                          itemStyle={{ color: 'hsl(var(--foreground))' }}
+                        />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
+                ) : (
+                  <div className="h-[220px] flex items-center justify-center text-center text-muted-foreground bg-muted/5 rounded-xl border border-dashed border-border/50 font-medium p-4">
+                    No audience insights available yet
+                  </div>
+                )
               ) : (
                 <div className="h-[220px] flex items-center justify-center flex-col gap-3 text-muted-foreground bg-muted/10 rounded-xl border border-dashed border-border/50">
                   <div className="p-3 bg-background rounded-full border border-border shadow-sm">

@@ -98,36 +98,66 @@ export function useAnalytics() {
     // Traffic sources
     const sourceMap: Record<string, number> = {};
     analytics.forEach(a => {
-      const ref = (a.referrer || '').toLowerCase();
+      // Extract base referrer from composite field if present
+      const fullStr = a.referrer || '';
+      const ref = fullStr.split('||device:')[0].toLowerCase();
+      
       let source = 'Direct';
-      if (ref.includes('instagram.com')) source = 'Instagram';
-      else if (ref.includes('youtube.com')) source = 'YouTube';
-      else if (ref.includes('whatsapp.com')) source = 'WhatsApp';
-      else if (ref.includes('facebook.com')) source = 'Facebook';
+      if (ref.includes('instagram.com') || ref.includes('instagram.com/')) source = 'Instagram';
+      else if (ref.includes('youtube.com') || ref.includes('youtu.be')) source = 'YouTube';
+      else if (ref.includes('t.co') || ref.includes('twitter.com')) source = 'Twitter';
+      else if (ref.includes('facebook.com') || ref.includes('fb.me')) source = 'Facebook';
       else if (ref.includes('tiktok.com')) source = 'TikTok';
+      else if (ref.includes('linkedin.com')) source = 'LinkedIn';
+      else if (ref.includes('whatsapp.com')) source = 'WhatsApp';
+      else if (ref && ref !== 'unknown') {
+        try {
+          const url = new URL(ref.startsWith('http') ? ref : `https://${ref}`);
+          source = url.hostname.replace('www.', '');
+        } catch {
+          source = 'Other Referral';
+        }
+      }
+      
       sourceMap[source] = (sourceMap[source] || 0) + 1;
     });
+    
     const trafficSources = Object.entries(sourceMap).map(([source, clicks]) => ({ 
       source, 
       clicks: Number(clicks), 
-      percentage: totalClicks ? Number(clicks) / totalClicks * 100 : 0 
-    })).sort((a: { source: string; clicks: number; percentage: number }, b: { source: string; clicks: number; percentage: number }) => b.clicks - a.clicks);
+      percentage: Number(((Number(clicks) / Math.max(analytics.length, 1)) * 100).toFixed(1))
+    })).sort((a, b) => b.clicks - a.clicks);
 
-    // Devices
-    const deviceMap: Record<string, number> = { Mobile: 0, Desktop: 0, Tablet: 0 };
+    // Devices - only count real data
+    const deviceMap: Record<string, number> = {};
     analytics.forEach(a => {
-      const ref = (a.referrer || '').toLowerCase();
-      let device = 'Desktop';
-      if (ref.includes('mobile') || ref.includes('android') || ref.includes('iphone')) device = 'Mobile';
-      else if (ref.includes('ipad') || ref.includes('tablet')) device = 'Tablet';
-      deviceMap[device] += 1;
+      const fullStr = a.referrer || '';
+      let device: string | null = null;
+
+      // 1. Check new explicit tag
+      if (fullStr.includes('||device:')) {
+        device = fullStr.split('||device:')[1];
+      }
+      
+      // 2. Fallback to legacy heuristics (very limited)
+      if (!device) {
+        const ref = fullStr.toLowerCase();
+        if (ref.includes('android') || ref.includes('iphone')) device = 'Mobile';
+        else if (ref.includes('ipad') || ref.includes('tablet')) device = 'Tablet';
+      }
+
+      // Only record if explicitly found to avoid fake numbers
+      if (device && ['Mobile', 'Tablet', 'Desktop'].includes(device)) {
+        deviceMap[device] = (deviceMap[device] || 0) + 1;
+      }
     });
+
+    const deviceTotalClicks = Object.values(deviceMap).reduce((a, b) => a + b, 0);
     const devices = Object.entries(deviceMap).map(([device, clicks]) => ({ 
       device, 
       clicks: Number(clicks), 
-      percentage: totalClicks ? Number(clicks) / totalClicks * 100 : 0 
-    })).sort((a: { device: string; clicks: number; percentage: number }, b: { device: string; clicks: number; percentage: number }) => b.clicks - a.clicks); 
-
+      percentage: Number(((Number(clicks) / Math.max(deviceTotalClicks, 1)) * 100).toFixed(1))
+    })).sort((a, b) => b.clicks - a.clicks);
     // Countries (no real data currently collected)
     const countries: Array<{ country: string; clicks: number; percentage: number }> = [];
 
